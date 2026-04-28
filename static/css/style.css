@@ -242,3 +242,36 @@ footer {
     font-weight: bold;
     display: inline-block;
 }
+
+/* === EFEK SLIDER UNTUK PRODUK > 3 === */
+.product-slider {
+    display: flex;
+    gap: 2.5rem;
+    overflow-x: auto;
+    /* Bikin bisa digeser ke samping */
+    padding-bottom: 1.5rem;
+    /* Biar bayangan card nggak kepotong */
+    scroll-snap-type: x mandatory;
+    /* Bikin geserannya mulus dan nempel */
+}
+
+/* Biar lebar kartu di dalam slider ukurannya tetap dan nggak gepeng */
+.product-slider .product-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+}
+
+/* Mempercantik scrollbar di bawahnya (khusus Chrome/Safari/Edge) */
+.product-slider::-webkit-scrollbar {
+    height: 8px;
+}
+
+.product-slider::-webkit-scrollbar-track {
+    background: var(--nav-bg);
+    border-radius: 10px;
+}
+
+.product-slider::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 10px;
+}

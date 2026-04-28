@@ -1,29 +1,64 @@
 import csv
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 
 app = Flask(__name__)
 
+# Fungsi bantuan untuk baca CSV biar kodenya rapi
+def get_products():
+    products = []
+    try:
+        with open('produk.csv', mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                products.append(row)
+    except FileNotFoundError:
+        pass
+    return products
+
 @app.route('/')
 def home():
-    # Bikin list kosong buat nampung data dari CSV
-    koleksi_produk = []
+    # Kita bikin dictionary (kamus) buat ngelompokin barang
+    products_by_category = {}
     
     try:
-        # Buka file produk.csv
-        # Tambahin encoding='utf-8' biar teks berantakan atau simbol aneh tetep kebaca aman
         with open('produk.csv', mode='r', encoding='utf-8') as file:
-            # DictReader ini ajaib, dia otomatis jadiin baris pertama Excel lu sebagai "kunci"
-            csv_reader = csv.DictReader(file)
-            
-            # Masukin setiap baris data ke dalam list koleksi_produk
-            for row in csv_reader:
-                koleksi_produk.append(row)
+            reader = csv.DictReader(file)
+            for row in reader:
+                # Ambil nama kategori dari CSV, kalau kosong kita masukin ke 'Lainnya'
+                kat = row.get('kategori', 'Lainnya')
+                
+                # Kalau kategorinya belum ada di list, bikin baru
+                if kat not in products_by_category:
+                    products_by_category[kat] = []
+                    
+                # Masukin barangnya ke kategori yang sesuai
+                products_by_category[kat].append(row)
                 
     except FileNotFoundError:
-        print("Waduh, file produk.csv nggak ketemu nih cuy! Pastiin namanya bener.")
+        pass
 
-    # Kirim datanya ke file index.html persis kayak sebelumnya
-    return render_template('index.html', products=koleksi_produk)
+    # Perhatiin: yang dikirim sekarang namanya products_by_category
+    return render_template('index.html', products_by_category=products_by_category)
+
+# ROUTE BARU: Halaman Detail Produk
+# Tambahin ini di app.py lu ya!
+@app.route('/produk/<nama_produk>')
+def detail_produk(nama_produk):
+    # Mengambil data dari CSV
+    products = []
+    with open('produk.csv', mode='r', encoding='utf-8') as file:
+        import csv
+        reader = csv.DictReader(file)
+        for row in reader:
+            products.append(row)
+            
+    # Nyari barang yang namanya pas diklik
+    item = next((p for p in products if p['nama'] == nama_produk), None)
+    
+    if item is None:
+        return "Barang tidak ditemukan", 404
+        
+    return render_template('product_detail.html', product=item)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -32,21 +32,42 @@
         <h2>Koleksi Fungsional</h2>
         <p class="section-subtitle">Dibuat dari 100% bahan alami pilihan tanpa pengawet.</p>
 
-        <div class="product-grid">
-            {% for product in products %}
+        {% for kategori, items in products_by_category.items() %}
+
+        <h3
+            style="margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 5px; display: inline-block;">
+            {{ kategori }}
+        </h3>
+
+        <div class="{% if items|length > 3 %}product-slider{% else %}product-grid{% endif %}"
+            style="margin-bottom: 4rem;">
+
+            {% for product in items %}
             <div class="product-card">
-                <img src="{{ product.gambar }}" alt="{{ product.nama }}"
-                    style="width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid #EFECE5;">
+
+                <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}">
+                    <img src="{{ product.gambar }}" alt="{{ product.nama }}"
+                        style="width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid #EFECE5;">
+                </a>
+
                 <div class="product-info">
-                    <h3>{{ product.nama }}</h3>
-                    <p>{{ product.deskripsi }}</p>
+                    <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}"
+                        style="text-decoration: none; color: inherit;">
+                        <h3 style="font-size: 1.3rem;">{{ product.nama }}</h3>
+                    </a>
+
+                    <p>{{ product.deskripsi[:50] }}...</p>
                     <span class="price">{{ product.harga }}</span>
-                    <a href="{{ product.link_beli }}" target="_blank" class="btn" style="display: inline-block;">Beli
-                        Sekarang</a>
+
+                    <a href="{{ product.link_beli }}" target="_blank" class="btn" style="display: inline-block;">Pesan
+                        via WA</a>
                 </div>
+
             </div>
             {% endfor %}
+
         </div>
+        {% endfor %}
     </section>
 
     <section id="filosofi" class="philosophy">
@@ -54,43 +75,19 @@
         <div class="philosophy-text">
             <h2>Kebaikan Alam dalam Genggaman</h2>
             <br>
-            <p>Niskala mengambil resep rahasia leluhur yang sudah terbukti khasiatnya, lalu mengemasnya dengan metode
-                ekstraksi modern. Hasilnya? Minuman yang sangat baik untuk tubuhmu, dan tampil estetik melengkapi gaya
-                hidup masa kini.</p>
+            <p>Grizelline Roots mengambil resep rahasia leluhur yang sudah terbukti khasiatnya, lalu mengemasnya dengan
+                metode ekstraksi modern. Hasilnya? Minuman yang sangat baik untuk tubuhmu, dan tampil estetik melengkapi
+                gaya hidup masa kini.</p>
         </div>
     </section>
 
     <footer id="kontak">
         <h2>Mulai Perjalanan Sehatmu</h2>
         <a href="https://wa.me/628123456789" target="_blank" class="btn-footer">Hubungi Admin via WhatsApp</a>
-        <p style="margin-top: 3rem; font-size: 0.8rem;">&copy; 2026 Niskala Botanicals. All Rights Reserved.</p>
+        <p style="margin-top: 3rem; font-size: 0.8rem;">&copy; 2026 Grizelline Roots. All Rights Reserved.</p>
     </footer>
 
-    <script>
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        // 1. Cek pas web pertama dibuka, apakah sebelumnya user milih dark mode?
-        if (localStorage.getItem('tema') === 'dark') {
-            body.classList.add('dark-mode');
-            themeToggle.textContent = '☀️ Light Mode';
-        }
-
-        // 2. Aksi pas tombol diklik
-        themeToggle.addEventListener('click', () => {
-            // Nambahin atau ngilangin class 'dark-mode' di tag <body>
-            body.classList.toggle('dark-mode');
-
-            // Cek status sekarang gelap atau terang, lalu simpan ke memori browser
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('tema', 'dark');
-                themeToggle.textContent = '☀️ Light Mode';
-            } else {
-                localStorage.setItem('tema', 'light');
-                themeToggle.textContent = '🌙 Dark Mode';
-            }
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 
 </body>
 

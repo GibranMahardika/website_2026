@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.nama }} | Grizelline Roots</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .detail-container {
+            display: flex;
+            gap: 3rem;
+            align-items: start;
+            padding-top: 2rem;
+        }
+
+        .detail-image {
+            flex: 1;
+        }
+
+        .detail-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .detail-info h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .detail-info .price {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .detail-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="/" class="logo">Grizelline Roots.</a>
+        <ul class="nav-links">
+            <li><a href="/">Beranda</a></li>
+            <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
+        </ul>
+    </nav>
+
+    <section class="container">
+        <a href="/" class="back-link">&larr; Kembali ke Katalog</a>
+
+        <div class="detail-container">
+            <div class="detail-image">
+                <img src="{{ product.gambar }}" alt="{{ product.nama }}">
+            </div>
+            <div class="detail-info">
+                <h1>{{ product.nama }}</h1>
+                <p class="price">{{ product.harga }}</p>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">{{ product.deskripsi }}</p>
+
+                <a href="{{ product.link_beli }}" target="_blank" class="btn"
+                    style="padding: 15px 40px; font-size: 1.2rem;">
+                    Beli Sekarang via WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+
+</html>
