@@ -1,0 +1,244 @@
+/* === VARIABEL WARNA === */
+:root {
+    --primary: #556B2F;
+    --secondary: #D2B48C;
+    --bg-light: #FDFBF7;
+    --text-dark: #2C3E2D;
+    --text-muted: #6B705C;
+    --card-bg: #ffffff;
+    --nav-bg: rgba(253, 251, 247, 0.95);
+}
+
+/* === TEMA DARK MODE === */
+body.dark-mode {
+    --primary: #8fae54;
+    --secondary: #D2B48C;
+    --bg-light: #121212;
+    --text-dark: #FDFBF7;
+    --text-muted: #a4a993;
+    --card-bg: #1e1e1e;
+    --nav-bg: rgba(18, 18, 18, 0.95);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+/* Tambahin transisi biar pergantian warna mulus */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    transition: background-color 0.4s, color 0.4s;
+}
+
+/* Navbar udah pakai var(--nav-bg) */
+nav {
+    position: sticky;
+    top: 0;
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(10px);
+    padding: 1.2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    z-index: 1000;
+    transition: background-color 0.4s;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--secondary);
+}
+
+/* Tombol Dark Mode */
+.btn-theme {
+    background: none;
+    border: 1px solid var(--text-dark);
+    color: var(--text-dark);
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-theme:hover {
+    background: var(--text-dark);
+    color: var(--bg-light);
+}
+
+/* Hero pakai var(--nav-bg) biar ngikutin gelap/terangnya tema */
+.hero {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(var(--nav-bg), var(--nav-bg)), url('https://images.unsplash.com/photo-1556910103-1c02745aae4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+    padding: 0 1rem;
+    transition: background 0.4s;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    padding: 12px 30px;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: 0.3s;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #3e4f22;
+}
+
+section {
+    padding: 5rem 5%;
+}
+
+section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+}
+
+/* Kartu produk pakai var(--card-bg) */
+.product-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, background-color 0.4s;
+    text-align: center;
+    padding-bottom: 1.5rem;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-info p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.price {
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* Bagian filosofi pakai var(--card-bg) biar ikut gelap */
+.philosophy {
+    background-color: var(--card-bg);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3rem;
+    transition: background-color 0.4s;
+}
+
+.philosophy-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.philosophy-text h2 {
+    text-align: left;
+}
+
+.philosophy-image {
+    flex: 1;
+    min-width: 300px;
+    height: 400px;
+    background: url('https://images.unsplash.com/photo-1611077544716-16782298bc6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+    border-radius: 20px;
+}
+
+footer {
+    background-color: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 3rem 5%;
+    transition: background-color 0.4s;
+}
+
+.btn-footer {
+    padding: 12px 30px;
+    background-color: var(--secondary);
+    color: var(--bg-light);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    display: inline-block;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grizelline Roots | Jamu Modern & Minuman Fungsional</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav>
+        <a href="#" class="logo">Grizelline Roots.</a>
+        <ul class="nav-links">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#koleksi">Koleksi</a></li>
+            <li><a href="#filosofi">Filosofi</a></li>
+            <li><a href="https://wa.me/628123456789" target="_blank">Pesan</a></li>
+            <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1>Tradisi Mengakar,<br>Gaya Hidup Modern.</h1>
+        <p>Menghadirkan kembali kebaikan alam Nusantara melalui minuman fungsional dan jamu cold-pressed yang dikemas
+            secara estetis.</p>
+        <a href="#koleksi" class="btn">Eksplorasi Rasa</a>
+    </section>
+
+    <section id="koleksi">
+        <h2>Koleksi Fungsional</h2>
+        <p class="section-subtitle">Dibuat dari 100% bahan alami pilihan tanpa pengawet.</p>
+
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.gambar }}" alt="{{ product.nama }}"
+                    style="width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid #EFECE5;">
+                <div class="product-info">
+                    <h3>{{ product.nama }}</h3>
+                    <p>{{ product.deskripsi }}</p>
+                    <span class="price">{{ product.harga }}</span>
+                    <a href="{{ product.link_beli }}" target="_blank" class="btn" style="display: inline-block;">Beli
+                        Sekarang</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="filosofi" class="philosophy">
+        <div class="philosophy-image"></div>
+        <div class="philosophy-text">
+            <h2>Kebaikan Alam dalam Genggaman</h2>
+            <br>
+            <p>Niskala mengambil resep rahasia leluhur yang sudah terbukti khasiatnya, lalu mengemasnya dengan metode
+                ekstraksi modern. Hasilnya? Minuman yang sangat baik untuk tubuhmu, dan tampil estetik melengkapi gaya
+                hidup masa kini.</p>
+        </div>
+    </section>
+
+    <footer id="kontak">
+        <h2>Mulai Perjalanan Sehatmu</h2>
+        <a href="https://wa.me/628123456789" target="_blank" class="btn-footer">Hubungi Admin via WhatsApp</a>
+        <p style="margin-top: 3rem; font-size: 0.8rem;">&copy; 2026 Niskala Botanicals. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // 1. Cek pas web pertama dibuka, apakah sebelumnya user milih dark mode?
+        if (localStorage.getItem('tema') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = '☀️ Light Mode';
+        }
+
+        // 2. Aksi pas tombol diklik
+        themeToggle.addEventListener('click', () => {
+            // Nambahin atau ngilangin class 'dark-mode' di tag <body>
+            body.classList.toggle('dark-mode');
+
+            // Cek status sekarang gelap atau terang, lalu simpan ke memori browser
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('tema', 'dark');
+                themeToggle.textContent = '☀️ Light Mode';
+            } else {
+                localStorage.setItem('tema', 'light');
+                themeToggle.textContent = '🌙 Dark Mode';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
