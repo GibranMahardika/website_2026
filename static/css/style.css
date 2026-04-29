@@ -275,3 +275,45 @@ footer {
     background-color: var(--primary);
     border-radius: 10px;
 }
+
+/* === EFEK DROPDOWN NAVBAR === */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--card-bg);
+    /* Ngikutin tema dark/light mode */
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    border-radius: 10px;
+    overflow: hidden;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-content a {
+    color: var(--text-dark);
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.95rem;
+    transition: 0.2s;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(85, 107, 47, 0.05);
+    /* Warna hijau transparan Grizelline */
+    color: var(--primary);
+    padding-left: 25px;
+    /* Efek geser dikit pas di-hover */
+}
+
+/* Munculin dropdown pas menu disorot */
+.dropdown:hover .dropdown-content {
+    display: block;
+}

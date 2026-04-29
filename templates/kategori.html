@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategori {{ kategori }} | Grizelline Roots</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="{{ 'dark-mode' if request.cookies.get('tema') == 'dark' else '' }}">
+
+    <nav>
+        <a href="/" class="logo">Grizelline Roots.</a>
+        <ul class="nav-links">
+            <li><a href="/">Beranda</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Kategori ▾</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Pelangsing') }}">Jamu Pelangsing</a>
+                    <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Anak') }}">Jamu Anak</a>
+                    <a href="{{ url_for('kategori_produk', nama_kategori='Minuman Harian') }}">Minuman Harian</a>
+                </div>
+            </li>
+            <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
+        </ul>
+    </nav>
+
+    <section class="container" style="padding-top: 100px;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="color: var(--primary); font-size: 2.5rem;">{{ kategori }}</h1>
+            <p class="section-subtitle">Koleksi terbaik kami untuk kategori {{ kategori }}.</p>
+        </div>
+
+        <div class="product-grid">
+            {% if products|length == 0 %}
+            <p style="text-align: center; width: 100%; color: var(--text-muted);">Belum ada produk di kategori ini.</p>
+            {% else %}
+            {% for product in products %}
+            <div class="product-card">
+                <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}">
+                    <img src="/{{ product.gambar }}" alt="{{ product.nama }}"
+                        style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-bottom: 3px solid rgba(0,0,0,0.05);">
+                </a>
+                <div class="product-info">
+                    <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}"
+                        style="text-decoration: none; color: inherit;">
+                        <h3 style="font-size: 1.3rem;">{{ product.nama }}</h3>
+                    </a>
+                    <p>{{ product.deskripsi[:50] }}...</p>
+                    <span class="price">{{ product.harga }}</span>
+                    <a href="{{ product.link_beli }}" target="_blank" class="btn" style="display: inline-block;">Pesan
+                        via WA</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+
+</html>

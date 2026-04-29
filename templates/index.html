@@ -14,7 +14,16 @@
         <a href="#" class="logo">Grizelline Roots.</a>
         <ul class="nav-links">
             <li><a href="#home">Beranda</a></li>
-            <li><a href="#koleksi">Koleksi</a></li>
+
+            <li class="dropdown">
+                <a href="#koleksi">Koleksi ▾</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Pelangsing') }}">Jamu Pelangsing</a>
+                    <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Anak') }}">Jamu Anak</a>
+                    <a href="{{ url_for('kategori_produk', nama_kategori='Minuman Harian') }}">Minuman Harian</a>
+                </div>
+            </li>
+
             <li><a href="#filosofi">Filosofi</a></li>
             <li><a href="https://wa.me/628123456789" target="_blank">Pesan</a></li>
             <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
@@ -78,6 +87,43 @@
             <p>Grizelline Roots mengambil resep rahasia leluhur yang sudah terbukti khasiatnya, lalu mengemasnya dengan
                 metode ekstraksi modern. Hasilnya? Minuman yang sangat baik untuk tubuhmu, dan tampil estetik melengkapi
                 gaya hidup masa kini.</p>
+        </div>
+    </section>
+
+    <section id="testimoni" style="background-color: var(--bg-light); text-align: center;">
+        <h2 style="color: var(--primary); font-size: 2.2rem; margin-bottom: 0.5rem;">Cerita Mereka</h2>
+        <p class="section-subtitle" style="margin-bottom: 3rem;">Pengalaman nyata bersama Grizelline Roots.</p>
+
+        <div class="product-grid" style="gap: 2rem;">
+            <div class="product-card" style="padding: 2rem; text-align: left; background: var(--card-bg);">
+                <div style="color: #f5b041; margin-bottom: 10px; letter-spacing: 2px;">★★★★★</div>
+                <p style="font-style: italic; color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem;">
+                    "Suka banget sama packagingnya yang premium! Jamu kunyit asamnya kerasa banget naturalnya dan nggak
+                    terlalu manis. Bakal langganan sih ini."
+                </p>
+                <h4 style="color: var(--text-dark); font-size: 1rem;">- Amanda S.</h4>
+                <p style="font-size: 0.8rem; color: var(--primary);">Varian: Kunyit Asam Modern</p>
+            </div>
+
+            <div class="product-card" style="padding: 2rem; text-align: left; background: var(--card-bg);">
+                <div style="color: #f5b041; margin-bottom: 10px; letter-spacing: 2px;">★★★★★</div>
+                <p style="font-style: italic; color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem;">
+                    "Awalnya ragu beli jamu online, tapi pas dateng sumpah rapi banget. Rasanya juga enak, beneran bikin
+                    badan lebih enteng pas bangun tidur."
+                </p>
+                <h4 style="color: var(--text-dark); font-size: 1rem;">- Bimo A.</h4>
+                <p style="font-size: 0.8rem; color: var(--primary);">Varian: Slimming Detox Tea</p>
+            </div>
+
+            <div class="product-card" style="padding: 2rem; text-align: left; background: var(--card-bg);">
+                <div style="color: #f5b041; margin-bottom: 10px; letter-spacing: 2px;">★★★★★</div>
+                <p style="font-style: italic; color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem;">
+                    "Kids immune boosternya penyelamat banget. Anakku biasanya susah minum vitamin, tapi ini dia doyan.
+                    Thanks Grizelline!"
+                </p>
+                <h4 style="color: var(--text-dark); font-size: 1rem;">- Ibu Rina</h4>
+                <p style="font-size: 0.8rem; color: var(--primary);">Varian: Kids Immune Booster</p>
+            </div>
         </div>
     </section>
 

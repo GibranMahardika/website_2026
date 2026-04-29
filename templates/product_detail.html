@@ -8,79 +8,317 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        .detail-container {
+        /* === STYLE KHUSUS LAYOUT E-COMMERCE PREMIUM === */
+        .ecom-container {
             display: flex;
-            gap: 3rem;
-            align-items: start;
-            padding-top: 2rem;
+            gap: 2.5rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            margin-top: 1rem;
         }
 
-        .detail-image {
-            flex: 1;
+        /* Bagian Kiri: Gambar */
+        .ecom-gallery {
+            flex: 0 0 40%;
         }
 
-        .detail-image img {
+        .main-image {
             width: 100%;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            /* INI KUNCI BIAR GAMBAR JADI KOTAK OTOMATIS */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .detail-info {
+        .thumbnail-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .thumbnail-row img {
+            width: 80px;
+            height: 80px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.3s;
+            opacity: 0.7;
+        }
+
+        .thumbnail-row img.active,
+        .thumbnail-row img:hover {
+            border-color: var(--primary);
+            opacity: 1;
+        }
+
+        /* Bagian Kanan: Info Produk */
+        .ecom-info {
             flex: 1;
-            text-align: left;
         }
 
-        .detail-info h1 {
-            font-size: 3rem;
+        .badge-star {
+            background-color: var(--secondary);
+            /* Ganti ke warna estetik lu */
+            color: var(--bg-light);
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-right: 8px;
+            vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ecom-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        /* Baris Rating & Terjual */
+        .ecom-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+        }
+
+        .ecom-stats span {
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            padding-right: 15px;
+        }
+
+        .ecom-stats span:last-child {
+            border-right: none;
+        }
+
+        .star-rating {
+            color: #f5b041;
+            letter-spacing: 2px;
+        }
+
+        /* Kotak Harga */
+        .price-box {
+            background-color: rgba(85, 107, 47, 0.05);
+            /* Hijau transparan tipis */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(85, 107, 47, 0.1);
+        }
+
+        .dark-mode .price-box {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .price-text {
+            font-size: 2.2rem;
+            font-weight: bold;
             color: var(--primary);
-            margin-bottom: 1rem;
+            /* Balik ke warna hijau utama */
+            margin: 0;
         }
 
-        .detail-info .price {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+        /* Varian & Kuantitas */
+        .option-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .option-label {
+            width: 120px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .variant-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+            padding: 8px 20px;
+            margin-right: 10px;
+            border-radius: 30px;
+            /* Bikin agak bulat biar kerasa premium */
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dark-mode .variant-btn {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .variant-btn:hover,
+        .variant-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: rgba(85, 107, 47, 0.05);
+        }
+
+        /* Tombol Aksi */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .btn-cart {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 15px 30px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+
+        .btn-cart:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-buy {
+            background-color: var(--primary);
+            border: 2px solid var(--primary);
+            color: white;
+            padding: 15px 40px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover {
+            background-color: #3e4f22;
+            border-color: #3e4f22;
         }
 
         .back-link {
             display: inline-block;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: var(--text-muted);
             text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
         }
 
         @media (max-width: 768px) {
-            .detail-container {
+            .ecom-container {
                 flex-direction: column;
+                padding: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-cart,
+            .btn-buy {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
 </head>
 
-<body>
-    <nav>
-        <a href="/" class="logo">Grizelline Roots.</a>
-        <ul class="nav-links">
-            <li><a href="/">Beranda</a></li>
-            <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
-        </ul>
-    </nav>
+<body class="{{ 'dark-mode' if request.cookies.get('tema') == 'dark' else '' }}">
+    <ul class="nav-links">
+        <li><a href="/">Beranda</a></li>
+
+        <li class="dropdown">
+            <a href="#" class="dropbtn">Kategori ▾</a>
+            <div class="dropdown-content">
+                <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Pelangsing') }}">Jamu Pelangsing</a>
+                <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Anak') }}">Jamu Anak</a>
+                <a href="{{ url_for('kategori_produk', nama_kategori='Minuman Harian') }}">Minuman Harian</a>
+            </div>
+        </li>
+
+        <li><a href="https://wa.me/628123456789" target="_blank">Pesan</a></li>
+        <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
+    </ul>
 
     <section class="container">
         <a href="/" class="back-link">&larr; Kembali ke Katalog</a>
 
-        <div class="detail-container">
-            <div class="detail-image">
-                <img src="{{ product.gambar }}" alt="{{ product.nama }}">
+        <div class="ecom-container">
+            <div class="ecom-gallery">
+                <img src="/{{ product.gambar }}" alt="{{ product.nama }}" class="main-image">
+                <div class="thumbnail-row">
+                    <img src="/{{ product.gambar }}" class="active">
+                    <img src="/{{ product.gambar }}">
+                    <img src="/{{ product.gambar }}">
+                </div>
             </div>
-            <div class="detail-info">
-                <h1>{{ product.nama }}</h1>
-                <p class="price">{{ product.harga }}</p>
-                <p style="font-size: 1.1rem; margin-bottom: 2rem;">{{ product.deskripsi }}</p>
 
-                <a href="{{ product.link_beli }}" target="_blank" class="btn"
-                    style="padding: 15px 40px; font-size: 1.2rem;">
-                    Beli Sekarang via WhatsApp
-                </a>
+            <div class="ecom-info">
+                <h1 class="ecom-title">
+                    <span class="badge-star">Unggulan</span> {{ product.nama }}
+                </h1>
+
+                <div class="ecom-stats">
+                    <span class="star-rating">★★★★★</span>
+                    <span><strong>4.9</strong>/5 Penilaian</span>
+                    <span><strong>200+</strong> Terjual</span>
+                </div>
+
+                <div class="price-box">
+                    <p class="price-text">{{ product.harga }}</p>
+                </div>
+
+                <div class="option-row">
+                    <div class="option-label">Kemasan</div>
+                    <div>
+                        <button class="variant-btn active">Botol Kaca</button>
+                        <button class="variant-btn">Refill Pouch</button>
+                    </div>
+                </div>
+
+                <div class="option-row">
+                    <div class="option-label">Jumlah</div>
+                    <div>
+                        <button class="variant-btn" style="padding: 5px 15px;">-</button>
+                        <span style="margin: 0 10px; font-weight: bold;">1</span>
+                        <button class="variant-btn" style="padding: 5px 15px;">+</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid rgba(0,0,0,0.05);">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--text-dark);">Detail Produk</h3>
+                    <p style="font-size: 1rem; line-height: 1.7; color: var(--text-muted);">
+                        {{ product.deskripsi }}
+                    </p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-cart">Tambah Keranjang</button>
+                    <a href="{{ product.link_beli }}" target="_blank" class="btn-buy">Beli Sekarang</a>
+                </div>
+
             </div>
         </div>
     </section>

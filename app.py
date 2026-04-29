@@ -60,5 +60,25 @@ def detail_produk(nama_produk):
         
     return render_template('product_detail.html', product=item)
 
+# ROUTE BARU: Halaman Kategori Spesifik
+@app.route('/kategori/<nama_kategori>')
+def kategori_produk(nama_kategori):
+    products_in_category = []
+    
+    try:
+        with open('produk.csv', mode='r', encoding='utf-8') as file:
+            import csv
+            reader = csv.DictReader(file)
+            for row in reader:
+                # Cek apakah barang ini masuk ke kategori yang diklik user
+                if row.get('kategori', '') == nama_kategori:
+                    products_in_category.append(row)
+    except FileNotFoundError:
+        pass
+        
+    return render_template('kategori.html', 
+                           products=products_in_category, 
+                           kategori=nama_kategori)
+
 if __name__ == '__main__':
     app.run(debug=True)
