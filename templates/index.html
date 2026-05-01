@@ -10,25 +10,7 @@
 
 <body>
 
-    <nav>
-        <a href="#" class="logo">Grizelline Roots.</a>
-        <ul class="nav-links">
-            <li><a href="#home">Beranda</a></li>
-
-            <li class="dropdown">
-                <a href="#koleksi">Koleksi ▾</a>
-                <div class="dropdown-content">
-                    <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Pelangsing') }}">Jamu Pelangsing</a>
-                    <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Anak') }}">Jamu Anak</a>
-                    <a href="{{ url_for('kategori_produk', nama_kategori='Minuman Harian') }}">Minuman Harian</a>
-                </div>
-            </li>
-
-            <li><a href="#filosofi">Filosofi</a></li>
-            <li><a href="https://wa.me/628123456789" target="_blank">Pesan</a></li>
-            <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
-        </ul>
-    </nav>
+    {% include 'navbar.html' %}
 
     <section id="home" class="hero">
         <h1>Tradisi Mengakar,<br>Gaya Hidup Modern.</h1>
@@ -38,25 +20,23 @@
     </section>
 
     <section id="koleksi">
-        <h2>Koleksi Fungsional</h2>
-        <p class="section-subtitle">Dibuat dari 100% bahan alami pilihan tanpa pengawet.</p>
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <!-- Judulnya diganti biar lebih "menjual" -->
+            <h2>Produk Terlaris Kami</h2>
+            <p class="section-subtitle">Pilihan favorit pelanggan Grizelline Roots bulan ini.</p>
+        </div>
 
-        {% for kategori, items in products_by_category.items() %}
+        <!-- Langsung nampilin grid/slider otomatis -->
+        <div class="{% if products|length > 3 %}product-slider{% else %}product-grid{% endif %}"
+            style="margin-bottom: 3rem;">
 
-        <h3
-            style="margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 5px; display: inline-block;">
-            {{ kategori }}
-        </h3>
-
-        <div class="{% if items|length > 3 %}product-slider{% else %}product-grid{% endif %}"
-            style="margin-bottom: 4rem;">
-
-            {% for product in items %}
+            {% for product in products %}
             <div class="product-card">
 
                 <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}">
+                    <!-- aspect-ratio: 1/1 bikin gambar selalu kotak rapi -->
                     <img src="{{ product.gambar }}" alt="{{ product.nama }}"
-                        style="width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid #EFECE5;">
+                        style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-bottom: 3px solid rgba(0,0,0,0.05);">
                 </a>
 
                 <div class="product-info">
@@ -68,7 +48,6 @@
                     <p>{{ product.deskripsi[:50] }}...</p>
                     <span class="price">{{ product.harga }}</span>
 
-                    <!-- TOMBOL YANG DIUBAH: Ngarah ke halaman detail dan ganti teks -->
                     <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}" class="btn"
                         style="display: inline-block;">
                         Lihat Detail
@@ -79,17 +58,52 @@
             {% endfor %}
 
         </div>
-        {% endfor %}
+
+        <!-- Tambahan teks estetik biar pada ngecek navbar -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+                Mencari varian lain? Silakan jelajahi menu <strong>Koleksi</strong> di bagian atas.
+            </p>
+        </div>
     </section>
 
-    <section id="filosofi" class="philosophy">
-        <div class="philosophy-image"></div>
-        <div class="philosophy-text">
-            <h2>Kebaikan Alam dalam Genggaman</h2>
-            <br>
-            <p>Grizelline Roots mengambil resep rahasia leluhur yang sudah terbukti khasiatnya, lalu mengemasnya dengan
-                metode ekstraksi modern. Hasilnya? Minuman yang sangat baik untuk tubuhmu, dan tampil estetik melengkapi
-                gaya hidup masa kini.</p>
+    <!-- === SECTION FILOSOFI === -->
+    <section id="filosofi" class="filosofi-section">
+        <div class="filosofi-container">
+            <div class="filosofi-header">
+                <span class="badge">Tentang Grizelline Roots</span>
+                <h2>Akar Kebaikan, <br>Diseduh untuk Masa Depan.</h2>
+                <p class="filosofi-desc">
+                    Di <strong>Grizelline Roots</strong>, kami percaya bahwa alam telah menyediakan semua resep yang
+                    kita butuhkan. Kami hadir bukan sekadar mengemas jamu, tapi menghidupkan kembali warisan tradisi
+                    kebugaran dengan sentuhan modern yang praktis, higienis, dan elegan untuk menemani gaya hidupmu.
+                </p>
+            </div>
+
+            <div class="values-grid">
+                <!-- Kartu Value 1 -->
+                <div class="value-card">
+                    <div class="icon">🌿</div>
+                    <h3>100% Alami & Murni</h3>
+                    <p>Tanpa pengawet, pewarna buatan, atau bahan kimia. Kami hanya mengekstrak sari pati bumi terbaik
+                        untuk tubuhmu.</p>
+                </div>
+
+                <!-- Kartu Value 2 -->
+                <div class="value-card">
+                    <div class="icon">🤝</div>
+                    <h3>Dibuat dengan Hati</h3>
+                    <p>Dirawat, dicuci bersih, dan diracik dengan standar higienis tinggi untuk menjaga khasiat dalam
+                        setiap tetesnya.</p>
+                </div>
+
+                <!-- Kartu Value 3 -->
+                <div class="value-card">
+                    <div class="icon">✨</div>
+                    <h3>Gaya Hidup Fungsional</h3>
+                    <p>Didesain khusus untuk orang sibuk sepertimu. Solusi kesehatan holistik yang nggak pake ribet.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -137,6 +151,26 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <!-- SCRIPT KHUSUS UI TAB -->
+    <script>
+        function openTab(evt, tabId) {
+            // 1. Sembunyikan semua isi tab
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].style.display = "none";
+            }
+
+            // 2. Hapus warna aktif dari semua tombol
+            var tabLinks = document.getElementsByClassName("tab-link");
+            for (var i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+            }
+
+            // 3. Tampilkan tab yang diklik dan kasih warna aktif ke tombolnya
+            document.getElementById(tabId).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
 
 </body>
 

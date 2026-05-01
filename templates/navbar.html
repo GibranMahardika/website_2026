@@ -1,0 +1,66 @@
+<nav>
+    <a href="{{ url_for('home') }}" class="logo">Grizelline Roots.</a>
+
+    <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}">Beranda</a></li>
+
+        <!-- MEGA MENU DROPDOWN -->
+        <li class="dropdown">
+            <a href="{{ url_for('home') }}#koleksi" style="font-weight: 600;">KOLEKSI ▾</a>
+
+            <div class="dropdown-content">
+                <!-- Kolom 1: Highlight -->
+                <div class="mega-column">
+                    <div class="mega-header">Rekomendasi</div>
+                    <a href="{{ url_for('home') }}#koleksi">Produk Terlaris 🔥</a>
+                    <a href="#" onclick="comingSoon(event)">Paket Bundling</a>
+                    <a href="#" onclick="comingSoon(event)">Promo Bulan Ini</a>
+                </div>
+
+                <!-- Kolom 2: Dinamis dari CSV Lu -->
+                <div class="mega-column">
+                    <div class="mega-header">Semua Kategori</div>
+                    {% for kategori in daftar_kategori %}
+                    <a href="{{ url_for('kategori_produk', nama_kategori=kategori) }}">{{ kategori }}</a>
+                    {% endfor %}
+                </div>
+
+                <!-- Kolom 3: Layanan/Panduan -->
+                <div class="mega-column">
+                    <div class="mega-header">Informasi</div>
+                    <a href="#" onclick="comingSoon(event)">Panduan Konsumsi</a>
+                    <a href="https://wa.me/628123456789" target="_blank">Konsultasi Gratis</a>
+                </div>
+            </div>
+        </li>
+
+        <li><a href="{{ url_for('home') }}#filosofi">Filosofi</a></li>
+        <li><a href="https://wa.me/628123456789" target="_blank">Pesan</a></li>
+        <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
+    </ul>
+</nav>
+
+<!-- KOTAK POP-UP ESTETIK -->
+<div id="comingSoonPopup" class="toast-popup">
+    <div class="toast-icon">🚧</div>
+    <div class="toast-text">
+        <strong>Segera Hadir!</strong><br>
+        <span style="font-size: 0.85rem;">Maaf, fitur ini sedang dalam tahap pengembangan.</span>
+    </div>
+</div>
+
+<!-- JAVASCRIPT BUAT MUNCULIN POP-UP & REDIRECT -->
+<script>
+    function comingSoon(event) {
+        event.preventDefault(); // Biar layarnya gak lompat ke atas pas diklik
+
+        var popup = document.getElementById("comingSoonPopup");
+        popup.classList.add("show"); // Munculin pop-up
+
+        // Tunggu 2.5 detik biar pengunjung sempet baca, lalu lempar ke Home
+        setTimeout(function () {
+            popup.classList.remove("show");
+            window.location.href = "{{ url_for('home') }}";
+        }, 2500);
+    }
+</script>

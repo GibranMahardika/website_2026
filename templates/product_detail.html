@@ -377,13 +377,7 @@
 </head>
 
 <body class="{{ 'dark-mode' if request.cookies.get('tema') == 'dark' else '' }}">
-    <nav>
-        <a href="/" class="logo">Grizelline Roots.</a>
-        <ul class="nav-links">
-            <li><a href="/">Beranda</a></li>
-            <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
-        </ul>
-    </nav>
+    {% include 'navbar.html' %}
 
     <section class="container">
         <a href="/" class="back-link">&larr; Kembali ke Katalog</a>

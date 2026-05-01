@@ -4,6 +4,24 @@ import datetime
 
 app = Flask(__name__)
 
+# === JURUS SAKTI: Bikin daftar kategori tersedia di SEMUA halaman HTML ===
+@app.context_processor
+def inject_kategori():
+    kategori_unik = set() # Pakai 'set' biar nama kategori yang sama nggak dobel
+    try:
+        with open('produk.csv', mode='r', encoding='utf-8') as file:
+            import csv
+            reader = csv.DictReader(file)
+            for row in reader:
+                # Ambil nama kategori kalau ada isinya
+                if 'kategori' in row and row['kategori'].strip():
+                    kategori_unik.add(row['kategori'].strip())
+    except FileNotFoundError:
+        pass
+    
+    # Kembalikan datanya dalam bentuk list yang udah diurutin sesuai abjad
+    return dict(daftar_kategori=sorted(list(kategori_unik)))
+
 # Fungsi bantuan untuk baca CSV biar kodenya rapi
 def get_products():
     products = []
@@ -18,29 +36,23 @@ def get_products():
 
 @app.route('/')
 def home():
-    # Kita bikin dictionary (kamus) buat ngelompokin barang
-    products_by_category = {}
+    # Bikin list kosong buat nampung produk jagoan
+    recommended_products = []
     
     try:
         with open('produk.csv', mode='r', encoding='utf-8') as file:
+            import csv
             reader = csv.DictReader(file)
             for row in reader:
-                # Ambil nama kategori dari CSV, kalau kosong kita masukin ke 'Lainnya'
-                kat = row.get('kategori', 'Lainnya')
-                
-                # Kalau kategorinya belum ada di list, bikin baru
-                if kat not in products_by_category:
-                    products_by_category[kat] = []
-                    
-                # Masukin barangnya ke kategori yang sesuai
-                products_by_category[kat].append(row)
-                
+                recommended_products.append(row)
     except FileNotFoundError:
         pass
 
-    # Perhatiin: yang dikirim sekarang namanya products_by_category
-    return render_template('index.html', products_by_category=products_by_category)
+    # Trik MVP: Ambil maksimal 6 produk teratas aja dari CSV buat nangkring di halaman depan
+    recommended_products = recommended_products[:6]
 
+    # Kirim datanya ke index.html dengan nama 'products'
+    return render_template('index.html', products=recommended_products)
 # ROUTE BARU: Halaman Detail Produk
 # Tambahin ini di app.py lu ya!
 @app.route('/produk/<nama_produk>')

@@ -198,31 +198,99 @@ section h2 {
     margin-bottom: 1rem;
 }
 
-/* Bagian filosofi pakai var(--card-bg) biar ikut gelap */
-.philosophy {
+/* === CSS KHUSUS SECTION FILOSOFI === */
+.filosofi-section {
+    padding: 80px 20px;
+    background-color: rgba(85, 107, 47, 0.03);
+    /* Warna hijau super transparan biar estetik */
+    margin-top: 50px;
+}
+
+.filosofi-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.badge {
+    background-color: rgba(85, 107, 47, 0.1);
+    color: var(--primary);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.filosofi-header h2 {
+    font-size: 2.5rem;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.filosofi-desc {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto 50px auto;
+}
+
+/* Grid buat bikin 3 kotak berjajar */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.value-card {
     background-color: var(--card-bg);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 3rem;
-    transition: background-color 0.4s;
-}
-
-.philosophy-text {
-    flex: 1;
-    min-width: 300px;
-}
-
-.philosophy-text h2 {
-    text-align: left;
-}
-
-.philosophy-image {
-    flex: 1;
-    min-width: 300px;
-    height: 400px;
-    background: url('https://images.unsplash.com/photo-1611077544716-16782298bc6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+    padding: 40px 25px;
     border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary);
+}
+
+.value-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.value-card h3 {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.value-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Penyesuaian saat mode gelap (Dark Mode) aktif */
+.dark-mode .filosofi-section {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.dark-mode .value-card {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-mode .value-card:hover {
+    border-color: var(--primary);
 }
 
 footer {
@@ -276,44 +344,189 @@ footer {
     border-radius: 10px;
 }
 
-/* === EFEK DROPDOWN NAVBAR === */
-.dropdown {
+/* === CSS MEGA MENU ALA ADIDAS === */
+/* Wajib tambahin ini ke nav lu biar menu turunnya pas */
+nav {
     position: relative;
-    display: inline-block;
+}
+
+/* Dropdown trigger-nya kita lepas dari posisi biar content bisa full 100% */
+.dropdown {
+    position: static;
+}
+
+/* === JEMBATAN GAIB BIAR MENU NGGAK ILANG PAS DI-KLIK === */
+.dropdown-content::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    /* Narik jembatannya ke atas buat nutupin celah */
+    left: 0;
+    width: 100%;
+    height: 30px;
+    /* Tinggi celahnya, kalau masih ilang bisa digedein jadi 40px */
+    background: transparent;
+    /* Warnanya bening, jadi nggak ngerusak desain lu */
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: var(--card-bg);
-    /* Ngikutin tema dark/light mode */
-    min-width: 200px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    border-radius: 10px;
-    overflow: hidden;
-    top: 100%;
     left: 0;
+    top: 100%;
+    /* Muncul tepat di garis bawah navbar */
+    width: 100%;
+    /* Memenuhi layar dari ujung ke ujung */
+    background-color: var(--bg-light);
+    /* Warna background solid */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    /* Bayangan estetik ke bawah */
+    padding: 40px 10%;
+    /* Spasi lega banget di dalam menu */
+    z-index: 999;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.dropdown-content a {
+/* Tampilkan dalam bentuk Grid multi-kolom saat disorot */
+.dropdown:hover .dropdown-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Kita bikin 3 kolom */
+    gap: 40px;
+}
+
+/* Style Judul Kolom (Yang Teks Tebal) */
+.mega-header {
+    font-size: 0.95rem;
+    font-weight: 700;
     color: var(--text-dark);
-    padding: 12px 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Style Link Kategori (Font Kecil Tapi Terbaca Jelas) */
+.mega-column a {
+    color: var(--text-muted);
     text-decoration: none;
     display: block;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    /* Ukuran font dikecilin ala Adidas */
+    line-height: 2.2;
+    /* Jarak antar baris dibikin lega */
     transition: 0.2s;
+    text-align: left;
 }
 
-.dropdown-content a:hover {
-    background-color: rgba(85, 107, 47, 0.05);
-    /* Warna hijau transparan Grizelline */
+/* Efek Sorot Halus */
+.mega-column a:hover {
     color: var(--primary);
-    padding-left: 25px;
-    /* Efek geser dikit pas di-hover */
+    font-weight: 500;
+    transform: translateX(5px);
+    /* Geser ke kanan dikit pas disorot */
 }
 
-/* Munculin dropdown pas menu disorot */
-.dropdown:hover .dropdown-content {
-    display: block;
+/* === CSS KHUSUS UI TAB KATEGORI === */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    /* Biar kalau di HP bisa turun ke bawah rapi */
+}
+
+.tab-link {
+    background-color: var(--card-bg);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-muted);
+    padding: 10px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dark-mode .tab-link {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-link:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Warna tombol saat Tab sedang aktif/dipilih */
+.tab-link.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Animasi biar pas ganti tab munculnya mulus */
+.tab-content {
+    display: none;
+    /* Disembunyikan dulu secara default */
+    animation: fadeIn 0.4s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === CSS TOAST POP-UP (COMING SOON) === */
+.toast-popup {
+    visibility: hidden;
+    /* Sembunyiin defaultnya */
+    min-width: 250px;
+    background-color: var(--card-bg);
+    color: var(--text-dark);
+    text-align: left;
+    border-radius: 12px;
+    padding: 16px 20px;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    bottom: 20px;
+    /* Muncul dari bawah layar */
+    transform: translateX(-50%);
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
+    border-left: 5px solid #d9a05b;
+    /* Warna aksen gold/kuning estetik */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    opacity: 0;
+    transition: opacity 0.4s ease, bottom 0.4s ease;
+}
+
+/* Class animasi pas pop-up muncul */
+.toast-popup.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+    /* Gerak naik sedikit ngasih efek animasi mulus */
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+}
+
+.toast-text {
+    line-height: 1.4;
+}
+
+/* Penyesuaian Dark Mode buat Pop-up */
+.dark-mode .toast-popup {
+    border-color: #f1c40f;
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
 }
