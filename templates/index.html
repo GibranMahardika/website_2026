@@ -68,8 +68,11 @@
                     <p>{{ product.deskripsi[:50] }}...</p>
                     <span class="price">{{ product.harga }}</span>
 
-                    <a href="{{ product.link_beli }}" target="_blank" class="btn" style="display: inline-block;">Pesan
-                        via WA</a>
+                    <!-- TOMBOL YANG DIUBAH: Ngarah ke halaman detail dan ganti teks -->
+                    <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}" class="btn"
+                        style="display: inline-block;">
+                        Lihat Detail
+                    </a>
                 </div>
 
             </div>

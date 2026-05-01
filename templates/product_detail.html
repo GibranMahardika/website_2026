@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        /* === STYLE KHUSUS LAYOUT E-COMMERCE PREMIUM === */
+        /* CSS LAYOUT E-COMMERCE (Yang udah kita bikin sebelumnya) */
         .ecom-container {
             display: flex;
             gap: 2.5rem;
@@ -19,18 +19,17 @@
             margin-top: 1rem;
         }
 
-        /* Bagian Kiri: Gambar */
         .ecom-gallery {
             flex: 0 0 40%;
         }
 
         .main-image {
             width: 100%;
-            /* INI KUNCI BIAR GAMBAR JADI KOTAK OTOMATIS */
             aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 10px;
             border: 1px solid rgba(0, 0, 0, 0.05);
+            cursor: zoom-in;
         }
 
         .thumbnail-row {
@@ -57,14 +56,12 @@
             opacity: 1;
         }
 
-        /* Bagian Kanan: Info Produk */
         .ecom-info {
             flex: 1;
         }
 
         .badge-star {
             background-color: var(--secondary);
-            /* Ganti ke warna estetik lu */
             color: var(--bg-light);
             padding: 4px 10px;
             font-size: 0.8rem;
@@ -84,7 +81,6 @@
             color: var(--text-dark);
         }
 
-        /* Baris Rating & Terjual */
         .ecom-stats {
             display: flex;
             align-items: center;
@@ -108,10 +104,8 @@
             letter-spacing: 2px;
         }
 
-        /* Kotak Harga */
         .price-box {
             background-color: rgba(85, 107, 47, 0.05);
-            /* Hijau transparan tipis */
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 25px;
@@ -129,11 +123,9 @@
             font-size: 2.2rem;
             font-weight: bold;
             color: var(--primary);
-            /* Balik ke warna hijau utama */
             margin: 0;
         }
 
-        /* Varian & Kuantitas */
         .option-row {
             display: flex;
             align-items: center;
@@ -154,7 +146,6 @@
             padding: 8px 20px;
             margin-right: 10px;
             border-radius: 30px;
-            /* Bikin agak bulat biar kerasa premium */
             cursor: pointer;
             transition: 0.3s;
         }
@@ -170,7 +161,6 @@
             background-color: rgba(85, 107, 47, 0.05);
         }
 
-        /* Tombol Aksi */
         .action-buttons {
             display: flex;
             gap: 15px;
@@ -226,6 +216,131 @@
             color: var(--primary);
         }
 
+        /* === CSS BARU KHUSUS MODAL POPUP === */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            /* Efek ngeblur estetik */
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 3% auto;
+            /* Jarak dari atas */
+            width: 85%;
+            max-width: 1000px;
+            height: 80vh;
+            display: flex;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-left {
+            flex: 2;
+            position: relative;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-left img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-right {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #ee4d2d;
+        }
+
+        /* Tombol panah Kiri Kanan */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+        }
+
+        .nav-btn.prev {
+            left: 20px;
+        }
+
+        .nav-btn.next {
+            right: 20px;
+        }
+
+        .modal-thumb {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px 10px 0;
+            border: 2px solid transparent;
+            display: inline-block;
+        }
+
+        .modal-thumb.active {
+            border-color: var(--primary);
+        }
+
         @media (max-width: 768px) {
             .ecom-container {
                 flex-direction: column;
@@ -241,55 +356,63 @@
                 width: 100%;
                 text-align: center;
             }
+
+            .modal-content {
+                flex-direction: column;
+                height: 90vh;
+                margin: 5% auto;
+                width: 95%;
+            }
+
+            .modal-left {
+                flex: unset;
+                height: 60vh;
+            }
+
+            .modal-right {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 
 <body class="{{ 'dark-mode' if request.cookies.get('tema') == 'dark' else '' }}">
-    <ul class="nav-links">
-        <li><a href="/">Beranda</a></li>
-
-        <li class="dropdown">
-            <a href="#" class="dropbtn">Kategori ▾</a>
-            <div class="dropdown-content">
-                <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Pelangsing') }}">Jamu Pelangsing</a>
-                <a href="{{ url_for('kategori_produk', nama_kategori='Jamu Anak') }}">Jamu Anak</a>
-                <a href="{{ url_for('kategori_produk', nama_kategori='Minuman Harian') }}">Minuman Harian</a>
-            </div>
-        </li>
-
-        <li><a href="https://wa.me/628123456789" target="_blank">Pesan</a></li>
-        <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
-    </ul>
+    <nav>
+        <a href="/" class="logo">Grizelline Roots.</a>
+        <ul class="nav-links">
+            <li><a href="/">Beranda</a></li>
+            <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
+        </ul>
+    </nav>
 
     <section class="container">
         <a href="/" class="back-link">&larr; Kembali ke Katalog</a>
 
         <div class="ecom-container">
+            <!-- KIRI: FOTO PRODUK KOTAK -->
             <div class="ecom-gallery">
-                <img src="/{{ product.gambar }}" alt="{{ product.nama }}" class="main-image">
-                <div class="thumbnail-row">
+                <img src="/{{ product.gambar }}" alt="{{ product.nama }}" class="main-image" id="pageMainImg">
+                <!-- Thumbnail Area -->
+                <div class="thumbnail-row" id="pageThumbnails">
                     <img src="/{{ product.gambar }}" class="active">
                     <img src="/{{ product.gambar }}">
                     <img src="/{{ product.gambar }}">
                 </div>
             </div>
 
+            <!-- KANAN: INFO PRODUK ESTETIK -->
             <div class="ecom-info">
                 <h1 class="ecom-title">
                     <span class="badge-star">Unggulan</span> {{ product.nama }}
                 </h1>
-
                 <div class="ecom-stats">
                     <span class="star-rating">★★★★★</span>
                     <span><strong>4.9</strong>/5 Penilaian</span>
                     <span><strong>200+</strong> Terjual</span>
                 </div>
-
                 <div class="price-box">
                     <p class="price-text">{{ product.harga }}</p>
                 </div>
-
                 <div class="option-row">
                     <div class="option-label">Kemasan</div>
                     <div>
@@ -297,7 +420,6 @@
                         <button class="variant-btn">Refill Pouch</button>
                     </div>
                 </div>
-
                 <div class="option-row">
                     <div class="option-label">Jumlah</div>
                     <div>
@@ -306,24 +428,116 @@
                         <button class="variant-btn" style="padding: 5px 15px;">+</button>
                     </div>
                 </div>
-
                 <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid rgba(0,0,0,0.05);">
                     <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--text-dark);">Detail Produk</h3>
                     <p style="font-size: 1rem; line-height: 1.7; color: var(--text-muted);">
                         {{ product.deskripsi }}
                     </p>
                 </div>
-
                 <div class="action-buttons">
                     <button class="btn-cart">Tambah Keranjang</button>
-                    <a href="{{ product.link_beli }}" target="_blank" class="btn-buy">Beli Sekarang</a>
+                    <a href="{{ url_for('proses_pesanan', nama_produk=product.nama) }}" target="_blank"
+                        class="btn-buy">Beli Sekarang</a>
                 </div>
-
             </div>
         </div>
     </section>
 
+    <!-- === KODE HTML MODAL (DISEMBUNYIKAN DEFAULT) === -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+            <!-- Bagian Gambar Gede -->
+            <div class="modal-left">
+                <button class="nav-btn prev" id="modalPrev">&#10094;</button>
+                <img id="modalMainImg" src="" alt="Zoom Image">
+                <button class="nav-btn next" id="modalNext">&#10095;</button>
+            </div>
+            <!-- Bagian Kanan Modal (Judul & Thumbnails) -->
+            <div class="modal-right">
+                <h3 style="font-size: 1.2rem; line-height: 1.4; margin-bottom: 20px; color: var(--text-dark);">{{
+                    product.nama }}</h3>
+                <div id="modalThumbContainer">
+                    <!-- Thumbnail modal bakal di-generate sama JavaScript di sini -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+
+    <!-- SCRIPT KHUSUS LOGIKA GAMBAR -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const pageMainImg = document.getElementById("pageMainImg");
+            const pageThumbs = document.querySelectorAll("#pageThumbnails img");
+
+            const modal = document.getElementById("imageModal");
+            const modalMainImg = document.getElementById("modalMainImg");
+            const modalThumbContainer = document.getElementById("modalThumbContainer");
+            const closeModalBtn = document.querySelector(".close-modal");
+
+            let currentIndex = 0;
+            let imagesArray = [];
+
+            // 1. Kumpulin semua src gambar dari thumbnail & setting klik
+            pageThumbs.forEach((thumb, index) => {
+                imagesArray.push(thumb.src);
+
+                // Bikin thumbnail buat di dalam modal
+                const mThumb = document.createElement("img");
+                mThumb.src = thumb.src;
+                mThumb.className = "modal-thumb";
+                if (index === 0) mThumb.classList.add("active");
+
+                mThumb.onclick = () => updateAllImages(index);
+                modalThumbContainer.appendChild(mThumb);
+
+                // Setting klik thumbnail di halaman biasa
+                thumb.onclick = () => updateAllImages(index);
+            });
+
+            // 2. Fungsi sakti buat ngubah gambar di halaman & di modal sekalian
+            function updateAllImages(index) {
+                currentIndex = index;
+
+                // Update gambar utama
+                pageMainImg.src = imagesArray[currentIndex];
+                modalMainImg.src = imagesArray[currentIndex];
+
+                // Update highlight kotak aktif di thumbnail halaman
+                pageThumbs.forEach(t => t.classList.remove("active"));
+                pageThumbs[currentIndex].classList.add("active");
+
+                // Update highlight kotak aktif di thumbnail modal
+                const mThumbs = document.querySelectorAll(".modal-thumb");
+                mThumbs.forEach(t => t.classList.remove("active"));
+                mThumbs[currentIndex].classList.add("active");
+            }
+
+            // 3. Buka Modal pas gambar utama diklik
+            pageMainImg.onclick = () => {
+                modal.style.display = "block";
+                updateAllImages(currentIndex);
+            };
+
+            // 4. Tutup Modal pas tombol X diklik atau klik di luar gambar
+            closeModalBtn.onclick = () => { modal.style.display = "none"; };
+            window.onclick = (event) => {
+                if (event.target == modal) { modal.style.display = "none"; }
+            };
+
+            // 5. Navigasi Next & Prev di dalam Modal
+            document.getElementById("modalNext").onclick = () => {
+                let nextIndex = (currentIndex + 1) % imagesArray.length;
+                updateAllImages(nextIndex);
+            };
+            document.getElementById("modalPrev").onclick = () => {
+                let prevIndex = (currentIndex - 1 + imagesArray.length) % imagesArray.length;
+                updateAllImages(prevIndex);
+            };
+        });
+    </script>
 </body>
 
 </html>
