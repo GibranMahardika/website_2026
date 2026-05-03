@@ -112,41 +112,43 @@
         <p class="section-subtitle" style="margin-bottom: 3rem;">Pengalaman nyata bersama Grizelline Roots.</p>
 
         <div class="product-grid" style="gap: 2rem;">
-            <div class="product-card" style="padding: 2rem; text-align: left; background: var(--card-bg);">
-                <div style="color: #f5b041; margin-bottom: 10px; letter-spacing: 2px;">★★★★★</div>
-                <p style="font-style: italic; color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem;">
-                    "Suka banget sama packagingnya yang premium! Jamu kunyit asamnya kerasa banget naturalnya dan nggak
-                    terlalu manis. Bakal langganan sih ini."
-                </p>
-                <h4 style="color: var(--text-dark); font-size: 1rem;">- Amanda S.</h4>
-                <p style="font-size: 0.8rem; color: var(--primary);">Varian: Kunyit Asam Modern</p>
-            </div>
 
-            <div class="product-card" style="padding: 2rem; text-align: left; background: var(--card-bg);">
-                <div style="color: #f5b041; margin-bottom: 10px; letter-spacing: 2px;">★★★★★</div>
-                <p style="font-style: italic; color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem;">
-                    "Awalnya ragu beli jamu online, tapi pas dateng sumpah rapi banget. Rasanya juga enak, beneran bikin
-                    badan lebih enteng pas bangun tidur."
-                </p>
-                <h4 style="color: var(--text-dark); font-size: 1rem;">- Bimo A.</h4>
-                <p style="font-size: 0.8rem; color: var(--primary);">Varian: Slimming Detox Tea</p>
-            </div>
+            <!-- Cek kalau file reviews.csv masih kosong -->
+            {% if testimonials|length == 0 %}
+            <p style="text-align: center; width: 100%; color: var(--text-muted); font-style: italic;">
+                Belum ada cerita pengalaman nih. Jadilah yang pertama mencoba racikan kami!
+            </p>
+            {% else %}
 
+            <!-- Looping review dari CSV -->
+            {% for review in testimonials %}
             <div class="product-card" style="padding: 2rem; text-align: left; background: var(--card-bg);">
-                <div style="color: #f5b041; margin-bottom: 10px; letter-spacing: 2px;">★★★★★</div>
+                <!-- Bintang otomatis sesuai angka rating -->
+                <div style="color: #f5b041; margin-bottom: 10px; letter-spacing: 2px;">
+                    {% for _ in range(review.rating|int) %}⭐{% endfor %}
+                </div>
+
+                <!-- Ulasan -->
                 <p style="font-style: italic; color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem;">
-                    "Kids immune boosternya penyelamat banget. Anakku biasanya susah minum vitamin, tapi ini dia doyan.
-                    Thanks Grizelline!"
+                    "{{ review.ulasan }}"
                 </p>
-                <h4 style="color: var(--text-dark); font-size: 1rem;">- Ibu Rina</h4>
-                <p style="font-size: 0.8rem; color: var(--primary);">Varian: Kids Immune Booster</p>
+
+                <!-- Nama Pembeli -->
+                <h4 style="color: var(--text-dark); font-size: 1rem;">- {{ review.nama_pembeli }}</h4>
+
+                <!-- Varian Produk -->
+                <p style="font-size: 0.8rem; color: var(--primary);">Varian: {{ review.nama_produk }}</p>
             </div>
+            {% endfor %}
+
+            {% endif %}
+
         </div>
     </section>
 
     <footer id="kontak">
         <h2>Mulai Perjalanan Sehatmu</h2>
-        <a href="https://wa.me/628123456789" target="_blank" class="btn-footer">Hubungi Admin via WhatsApp</a>
+        <a href="https://wa.me/6289526402565" target="_blank" class="btn-footer">Hubungi Admin via WhatsApp</a>
         <p style="margin-top: 3rem; font-size: 0.8rem;">&copy; 2026 Grizelline Roots. All Rights Reserved.</p>
     </footer>
 

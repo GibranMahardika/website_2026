@@ -1,7 +1,15 @@
 <nav>
     <a href="{{ url_for('home') }}" class="logo">Grizelline Roots.</a>
 
-    <ul class="nav-links">
+    <!-- 1. INI TOMBOL HAMBURGER NYA (Persis di bawah Logo) -->
+    <div class="hamburger" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- 2. TAMBAHIN id="mobile-menu" di tag ul ini -->
+    <ul class="nav-links" id="mobile-menu">
         <li><a href="{{ url_for('home') }}">Beranda</a></li>
 
         <!-- MEGA MENU DROPDOWN -->
@@ -49,8 +57,9 @@
     </div>
 </div>
 
-<!-- JAVASCRIPT BUAT MUNCULIN POP-UP & REDIRECT -->
+<!-- JAVASCRIPT GABUNGAN (Popup & Hamburger) -->
 <script>
+    // 1. Script buat Pop Up Coming Soon
     function comingSoon(event) {
         event.preventDefault(); // Biar layarnya gak lompat ke atas pas diklik
 
@@ -63,4 +72,16 @@
             window.location.href = "{{ url_for('home') }}";
         }, 2500);
     }
+
+    // 2. Script buat Munculin Menu di HP
+    document.addEventListener("DOMContentLoaded", function () {
+        const hamburger = document.getElementById("hamburger-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        hamburger.addEventListener("click", function () {
+            // Nambahin atau ngilangin class 'active' pas diklik
+            hamburger.classList.toggle("active");
+            mobileMenu.classList.toggle("active");
+        });
+    });
 </script>

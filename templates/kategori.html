@@ -18,27 +18,34 @@
             <p class="section-subtitle">Koleksi terbaik kami untuk kategori {{ kategori }}.</p>
         </div>
 
-        <div class="product-grid">
+        <!-- === PRODUCT GRID 4 KOLOM === -->
+        <div class="herbana-grid">
             {% if products|length == 0 %}
-            <p style="text-align: center; width: 100%; color: var(--text-muted);">Belum ada produk di kategori ini.</p>
+            <p style="text-align: center; width: 100%; color: var(--text-muted); grid-column: 1 / -1;">Belum ada produk
+                di kategori ini.</p>
             {% else %}
             {% for product in products %}
-            <div class="product-card">
-                <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}">
-                    <img src="/{{ product.gambar }}" alt="{{ product.nama }}"
-                        style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-bottom: 3px solid rgba(0,0,0,0.05);">
+            <div class="herbana-card">
+                <!-- Gambar Produk -->
+                <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}" class="herbana-img-wrapper">
+                    <img src="/{{ product.gambar }}" alt="{{ product.nama }}">
                 </a>
-                <div class="product-info">
-                    <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}"
-                        style="text-decoration: none; color: inherit;">
-                        <h3 style="font-size: 1.3rem;">{{ product.nama }}</h3>
-                    </a>
-                    <p>{{ product.deskripsi[:50] }}...</p>
-                    <span class="price">{{ product.harga }}</span>
 
-                    <!-- TOMBOLNYA UDAH GUE ARAHIN KE DETAIL PRODUK -->
-                    <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}" class="btn"
-                        style="display: inline-block; background-color: var(--primary); color: white;">Lihat Detail</a>
+                <!-- Info Produk -->
+                <div class="herbana-info">
+                    <!-- Brand Typografi Kombinasi -->
+                    <h4 class="herbana-brand"><i>{{ product.nama }}</i></h4>
+                    <h3 class="herbana-title">{{ product.kategori }}</h3>
+
+                    <!-- Baris Harga & Tombol -->
+                    <div class="herbana-action-row">
+                        <span class="herbana-price">{{ product.harga }}</span>
+                        <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}" class="herbana-add">Lihat
+                            Detail</a>
+                    </div>
+
+                    <!-- Deskripsi Pendek -->
+                    <p class="herbana-desc">{{ product.deskripsi[:60] }}...</p>
                 </div>
             </div>
             {% endfor %}

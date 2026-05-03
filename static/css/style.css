@@ -1,4 +1,6 @@
-/* === VARIABEL WARNA === */
+/* ==========================================================================
+   1. VARIABEL & TEMA WARNA
+   ========================================================================== */
 :root {
     --primary: #556B2F;
     --secondary: #D2B48C;
@@ -9,7 +11,6 @@
     --nav-bg: rgba(253, 251, 247, 0.95);
 }
 
-/* === TEMA DARK MODE === */
 body.dark-mode {
     --primary: #8fae54;
     --secondary: #D2B48C;
@@ -20,6 +21,9 @@ body.dark-mode {
     --nav-bg: rgba(18, 18, 18, 0.95);
 }
 
+/* ==========================================================================
+   2. RESET & BASE STYLES
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -27,7 +31,14 @@ body.dark-mode {
     scroll-behavior: smooth;
 }
 
-/* Tambahin transisi biar pergantian warna mulus */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    /* Jurus Anti Geser Kiri-Kanan */
+    position: relative;
+}
+
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--bg-light);
@@ -36,7 +47,158 @@ body {
     transition: background-color 0.4s, color 0.4s;
 }
 
-/* Navbar udah pakai var(--nav-bg) */
+/* Perilaku default tombol dan link agar nurut ke warna tema */
+button,
+input,
+textarea,
+select,
+a {
+    font-family: inherit;
+    color: inherit;
+}
+
+/* ==========================================================================
+   3. GLOBAL UI COMPONENTS (Buttons, Pop-up, Tabs)
+   ========================================================================== */
+.btn {
+    padding: 12px 30px;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: 0.3s;
+    border: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #3e4f22;
+}
+
+.btn-theme {
+    background: none;
+    border: 1px solid var(--text-dark);
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-theme:hover {
+    background: var(--text-dark);
+    color: var(--bg-light);
+}
+
+.btn-footer {
+    padding: 12px 30px;
+    background-color: var(--secondary);
+    color: var(--bg-light);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* --- UI Tabs --- */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.tab-link {
+    background-color: var(--card-bg);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-muted);
+    padding: 10px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dark-mode .tab-link {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-link:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.tab-link.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Toast Pop-up --- */
+.toast-popup {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: var(--card-bg);
+    color: var(--text-dark);
+    text-align: left;
+    border-radius: 12px;
+    padding: 16px 20px;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
+    border-left: 5px solid #d9a05b;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    opacity: 0;
+    transition: opacity 0.4s ease, bottom 0.4s ease;
+}
+
+.toast-popup.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+}
+
+.toast-text {
+    line-height: 1.4;
+}
+
+.dark-mode .toast-popup {
+    border-color: #f1c40f;
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   4. HEADER & NAVBAR (Inc. Mega Menu & Hamburger)
+   ========================================================================== */
 nav {
     position: sticky;
     top: 0;
@@ -67,7 +229,6 @@ nav {
 }
 
 .nav-links a {
-    color: var(--text-dark);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
@@ -79,24 +240,112 @@ nav {
     color: var(--secondary);
 }
 
-/* Tombol Dark Mode */
-.btn-theme {
-    background: none;
-    border: 1px solid var(--text-dark);
-    color: var(--text-dark);
-    padding: 5px 15px;
-    border-radius: 20px;
+/* --- Mega Menu --- */
+.dropdown {
+    position: static;
+}
+
+.dropdown-content::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: transparent;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    background-color: var(--bg-light);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 40px 10%;
+    z-index: 999;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdown:hover .dropdown-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.mega-header {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mega-column a {
+    color: var(--text-muted);
+    display: block;
+    font-size: 0.9rem;
+    line-height: 2.2;
+    text-align: left;
+}
+
+.mega-column a:hover {
+    color: var(--primary);
+    font-weight: 500;
+    transform: translateX(5px);
+}
+
+/* --- Hamburger Menu --- */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
     cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
+    z-index: 1001;
 }
 
-.btn-theme:hover {
-    background: var(--text-dark);
-    color: var(--bg-light);
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-dark);
+    border-radius: 3px;
+    transition: 0.3s ease;
 }
 
-/* Hero pakai var(--nav-bg) biar ngikutin gelap/terangnya tema */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   5. LAYOUT SECTIONS (Hero, Grid, Filosofi, Slider, Footer)
+   ========================================================================== */
+section {
+    padding: 5rem 5%;
+}
+
+section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+}
+
+/* --- Hero --- */
 .hero {
     height: 90vh;
     display: flex;
@@ -122,45 +371,13 @@ nav {
     margin-bottom: 2rem;
 }
 
-.btn {
-    padding: 12px 30px;
-    background-color: var(--primary);
-    color: white;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: bold;
-    transition: 0.3s;
-    border: none;
-}
-
-.btn:hover {
-    background-color: #3e4f22;
-}
-
-section {
-    padding: 5rem 5%;
-}
-
-section h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--primary);
-}
-
-.section-subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    margin-bottom: 3rem;
-}
-
+/* --- Product Cards & Grid --- */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2.5rem;
 }
 
-/* Kartu produk pakai var(--card-bg) */
 .product-card {
     background: var(--card-bg);
     border-radius: 15px;
@@ -198,12 +415,43 @@ section h2 {
     margin-bottom: 1rem;
 }
 
-/* === CSS KHUSUS SECTION FILOSOFI === */
+/* --- Slider Produk --- */
+.product-slider {
+    display: flex;
+    gap: 2.5rem;
+    overflow-x: auto;
+    padding-bottom: 1.5rem;
+    scroll-snap-type: x mandatory;
+}
+
+.product-slider .product-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+}
+
+.product-slider::-webkit-scrollbar {
+    height: 8px;
+}
+
+.product-slider::-webkit-scrollbar-track {
+    background: var(--nav-bg);
+    border-radius: 10px;
+}
+
+.product-slider::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 10px;
+}
+
+/* --- Section Filosofi --- */
 .filosofi-section {
     padding: 80px 20px;
     background-color: rgba(85, 107, 47, 0.03);
-    /* Warna hijau super transparan biar estetik */
     margin-top: 50px;
+}
+
+.dark-mode .filosofi-section {
+    background-color: rgba(255, 255, 255, 0.02);
 }
 
 .filosofi-container {
@@ -227,7 +475,6 @@ section h2 {
 
 .filosofi-header h2 {
     font-size: 2.5rem;
-    color: var(--text-dark);
     margin-bottom: 20px;
     line-height: 1.3;
 }
@@ -240,7 +487,6 @@ section h2 {
     margin: 0 auto 50px auto;
 }
 
-/* Grid buat bikin 3 kotak berjajar */
 .values-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -256,6 +502,10 @@ section h2 {
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.dark-mode .value-card {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
 .value-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
@@ -269,7 +519,6 @@ section h2 {
 
 .value-card h3 {
     font-size: 1.2rem;
-    color: var(--text-dark);
     margin-bottom: 15px;
 }
 
@@ -280,19 +529,7 @@ section h2 {
     margin-bottom: 0;
 }
 
-/* Penyesuaian saat mode gelap (Dark Mode) aktif */
-.dark-mode .filosofi-section {
-    background-color: rgba(255, 255, 255, 0.02);
-}
-
-.dark-mode .value-card {
-    border-color: rgba(255, 255, 255, 0.05);
-}
-
-.dark-mode .value-card:hover {
-    border-color: var(--primary);
-}
-
+/* --- Footer --- */
 footer {
     background-color: var(--primary);
     color: white;
@@ -301,232 +538,224 @@ footer {
     transition: background-color 0.4s;
 }
 
-.btn-footer {
-    padding: 12px 30px;
-    background-color: var(--secondary);
-    color: var(--bg-light);
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: bold;
-    display: inline-block;
-}
-
-/* === EFEK SLIDER UNTUK PRODUK > 3 === */
-.product-slider {
+/* ==========================================================================
+   6. HERBANA STYLE CATEGORY LAYOUT
+   ========================================================================== */
+.herbana-filter-bar {
     display: flex;
-    gap: 2.5rem;
-    overflow-x: auto;
-    /* Bikin bisa digeser ke samping */
-    padding-bottom: 1.5rem;
-    /* Biar bayangan card nggak kepotong */
-    scroll-snap-type: x mandatory;
-    /* Bikin geserannya mulus dan nempel */
+    border-top: 1px solid var(--text-dark);
+    border-bottom: 1px solid var(--text-dark);
+    margin-bottom: 50px;
 }
 
-/* Biar lebar kartu di dalam slider ukurannya tetap dan nggak gepeng */
-.product-slider .product-card {
-    flex: 0 0 300px;
-    scroll-snap-align: start;
+.h-filter-item {
+    flex: 1;
+    padding: 15px 20px;
+    border-right: 1px solid var(--text-dark);
+    display: flex;
+    flex-direction: column;
 }
 
-/* Mempercantik scrollbar di bawahnya (khusus Chrome/Safari/Edge) */
-.product-slider::-webkit-scrollbar {
-    height: 8px;
+.h-filter-item label {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+    font-family: serif;
 }
 
-.product-slider::-webkit-scrollbar-track {
-    background: var(--nav-bg);
-    border-radius: 10px;
-}
-
-.product-slider::-webkit-scrollbar-thumb {
-    background-color: var(--primary);
-    border-radius: 10px;
-}
-
-/* === CSS MEGA MENU ALA ADIDAS === */
-/* Wajib tambahin ini ke nav lu biar menu turunnya pas */
-nav {
-    position: relative;
-}
-
-/* Dropdown trigger-nya kita lepas dari posisi biar content bisa full 100% */
-.dropdown {
-    position: static;
-}
-
-/* === JEMBATAN GAIB BIAR MENU NGGAK ILANG PAS DI-KLIK === */
-.dropdown-content::before {
-    content: "";
-    position: absolute;
-    top: -30px;
-    /* Narik jembatannya ke atas buat nutupin celah */
-    left: 0;
-    width: 100%;
-    height: 30px;
-    /* Tinggi celahnya, kalau masih ilang bisa digedein jadi 40px */
+.h-filter-item select {
+    border: none;
     background: transparent;
-    /* Warnanya bening, jadi nggak ngerusak desain lu */
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 100%;
-    /* Muncul tepat di garis bawah navbar */
-    width: 100%;
-    /* Memenuhi layar dari ujung ke ujung */
-    background-color: var(--bg-light);
-    /* Warna background solid */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    /* Bayangan estetik ke bawah */
-    padding: 40px 10%;
-    /* Spasi lega banget di dalam menu */
-    z-index: 999;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-/* Tampilkan dalam bentuk Grid multi-kolom saat disorot */
-.dropdown:hover .dropdown-content {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* Kita bikin 3 kolom */
-    gap: 40px;
-}
-
-/* Style Judul Kolom (Yang Teks Tebal) */
-.mega-header {
-    font-size: 0.95rem;
     font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 20px;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-/* Style Link Kategori (Font Kecil Tapi Terbaca Jelas) */
-.mega-column a {
-    color: var(--text-muted);
-    text-decoration: none;
-    display: block;
-    font-size: 0.9rem;
-    /* Ukuran font dikecilin ala Adidas */
-    line-height: 2.2;
-    /* Jarak antar baris dibikin lega */
-    transition: 0.2s;
+.dark-mode .h-filter-item select option {
+    background-color: var(--card-bg);
+}
+
+.herbana-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 30px;
+}
+
+.herbana-card {
+    background: transparent;
     text-align: left;
 }
 
-/* Efek Sorot Halus */
-.mega-column a:hover {
-    color: var(--primary);
-    font-weight: 500;
-    transform: translateX(5px);
-    /* Geser ke kanan dikit pas disorot */
+.herbana-img-wrapper {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
 }
 
-/* === CSS KHUSUS UI TAB KATEGORI === */
-.tab-container {
+.herbana-img-wrapper img {
+    width: 100%;
+    height: 280px;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+
+.herbana-img-wrapper:hover img {
+    transform: translateY(-10px);
+}
+
+.herbana-brand {
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.herbana-brand i {
+    font-family: Georgia, serif;
+    text-transform: lowercase;
+}
+
+.herbana-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.herbana-action-row {
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-    /* Biar kalau di HP bisa turun ke bawah rapi */
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-.tab-link {
-    background-color: var(--card-bg);
-    border: 2px solid rgba(0, 0, 0, 0.1);
+.herbana-price {
+    font-size: 0.9rem;
+    font-weight: 700;
     color: var(--text-muted);
-    padding: 10px 25px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 30px;
-    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.herbana-add {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #76c7c0;
+    text-decoration: none;
+    border-bottom: 2px solid #76c7c0;
+    padding-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     transition: 0.3s;
 }
 
-.dark-mode .tab-link {
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.tab-link:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-}
-
-/* Warna tombol saat Tab sedang aktif/dipilih */
-.tab-link.active {
-    background-color: var(--primary);
-    color: white;
-    border-color: var(--primary);
-}
-
-/* Animasi biar pas ganti tab munculnya mulus */
-.tab-content {
-    display: none;
-    /* Disembunyikan dulu secara default */
-    animation: fadeIn 0.4s;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* === CSS TOAST POP-UP (COMING SOON) === */
-.toast-popup {
-    visibility: hidden;
-    /* Sembunyiin defaultnya */
-    min-width: 250px;
-    background-color: var(--card-bg);
+.herbana-add:hover {
     color: var(--text-dark);
-    text-align: left;
-    border-radius: 12px;
-    padding: 16px 20px;
-    position: fixed;
-    z-index: 9999;
-    left: 50%;
-    bottom: 20px;
-    /* Muncul dari bawah layar */
-    transform: translateX(-50%);
-    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
-    border-left: 5px solid #d9a05b;
-    /* Warna aksen gold/kuning estetik */
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    opacity: 0;
-    transition: opacity 0.4s ease, bottom 0.4s ease;
+    border-color: var(--text-dark);
 }
 
-/* Class animasi pas pop-up muncul */
-.toast-popup.show {
-    visibility: visible;
-    opacity: 1;
-    bottom: 50px;
-    /* Gerak naik sedikit ngasih efek animasi mulus */
+.herbana-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
 }
 
-.toast-icon {
-    font-size: 1.5rem;
+/* ==========================================================================
+   7. RESPONSIVE MEDIA QUERIES (Satu pintu biar enteng diload)
+   ========================================================================== */
+/* Tablet Besar / Laptop Kecil */
+@media (max-width: 1024px) {
+    .herbana-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
-.toast-text {
-    line-height: 1.4;
+/* Tablet & HP Standar */
+@media (max-width: 768px) {
+
+    /* Navbar & Mobile Menu */
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        right: -100%;
+        flex-direction: column;
+        background-color: var(--card-bg);
+        width: 100%;
+        height: 100vh;
+        padding-top: 2rem;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -5px 10px 20px rgba(0, 0, 0, 0.05);
+        align-items: flex-start;
+        padding-left: 10%;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        margin: 15px 0;
+        width: 100%;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-shadow: none;
+        padding: 10px 0 10px 15px;
+        gap: 15px;
+        border-top: none;
+        background: transparent;
+    }
+
+    .mega-column {
+        margin-bottom: 10px;
+    }
+
+    /* Herbana Category Grid Fix */
+    .herbana-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .herbana-filter-bar {
+        flex-wrap: wrap;
+    }
+
+    .h-filter-item {
+        flex: 0 0 50%;
+        border-bottom: 1px solid var(--text-dark);
+    }
+
+    .h-filter-item:nth-child(2) {
+        border-right: none;
+    }
+
+    /* Ujung kanan gak perlu garis */
 }
 
-/* Penyesuaian Dark Mode buat Pop-up */
-.dark-mode .toast-popup {
-    border-color: #f1c40f;
-    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
+/* HP Layar Kecil */
+@media (max-width: 480px) {
+    .herbana-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .h-filter-item {
+        flex: 0 0 100%;
+        border-right: none;
+    }
 }

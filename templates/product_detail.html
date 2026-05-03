@@ -6,170 +6,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ product.nama }} | Grizelline Roots</title>
     <!-- CSS Global -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- CSS Khusus Detail (Hasil pindahan tadi) -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/product-detail.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=5.0">
+    <!-- CSS Khusus Detail -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/product-detail.css') }}?v=5.0">
 </head>
 
 <body class="{{ 'dark-mode' if request.cookies.get('tema') == 'dark' else '' }}">
+
     {% include 'navbar.html' %}
 
-    <section class="container">
-        <div class="ecom-container">
-            <!-- KIRI: FOTO PRODUK KOTAK -->
+    <section class="herbana-detail-container">
+
+        <!-- KIRI: GAMBAR PRODUK RAKSASA -->
+        <!-- KIRI: GAMBAR PRODUK RAKSASA -->
+        <div class="h-left">
             <div class="ecom-gallery">
-                <img src="/{{ product.gambar }}" alt="{{ product.nama }}" class="main-image" id="pageMainImg">
+
+                <!-- Gambar Utama selalu ngambil dari urutan pertama (index 0) -->
+                <img src="/{{ product_images[0] }}" alt="{{ product.nama }}" class="main-image" id="pageMainImg">
+
                 <!-- Thumbnail Area -->
                 <div class="thumbnail-row" id="pageThumbnails">
-                    <img src="/{{ product.gambar }}" class="active">
-                    <img src="/{{ product.gambar }}">
-                    <img src="/{{ product.gambar }}">
-                </div>
-            </div>
 
-            <!-- KANAN: INFO PRODUK ESTETIK -->
-            <div class="ecom-info">
-                <h1 class="ecom-title">
-                    <span class="badge-star">Unggulan</span> {{ product.nama }}
-                </h1>
-                <div class="ecom-stats">
-                    <span class="star-rating">⭐ {{ avg_rating }}</span>
-                    <span><strong>{{ avg_rating }}</strong>/5 ({{ review_count }} Penilaian)</span>
-                    <span><strong>200+</strong> Terjual</span> <!-- Terjual masih statis gpp -->
+                    <!-- Looping otomatis sebanyak gambar yang ada -->
+                    {% for img in product_images %}
+                    <!-- Kalau loop pertama (gambar utama), kasih class 'active' -->
+                    <img src="/{{ img }}" class="{% if loop.first %}active{% endif %}">
+                    {% endfor %}
+
                 </div>
-                <div class="price-box">
-                    <p class="price-text">{{ product.harga }}</p>
-                </div>
-                <div class="option-row">
-                    <div class="option-label">Kemasan</div>
-                    <div>
-                        <button class="variant-btn active">Botol Kaca</button>
-                        <button class="variant-btn">Refill Pouch</button>
-                    </div>
-                </div>
-                <div class="option-row">
-                    <div class="option-label">Jumlah</div>
-                    <div>
-                        <button class="variant-btn" style="padding: 5px 15px;">-</button>
-                        <span style="margin: 0 10px; font-weight: bold;">1</span>
-                        <button class="variant-btn" style="padding: 5px 15px;">+</button>
-                    </div>
-                </div>
-                <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid rgba(0,0,0,0.05);">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--text-dark);">Detail Produk</h3>
-                    <p style="font-size: 1rem; line-height: 1.7; color: var(--text-muted);">
-                        {{ product.deskripsi }}
-                    </p>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn-cart">Tambah Keranjang</button>
-                    <a href="{{ url_for('proses_pesanan', nama_produk=product.nama) }}" target="_blank"
-                        class="btn-buy">Beli Sekarang</a>
-                </div>
+
             </div>
         </div>
+
+        <!-- KANAN: INFO ESTETIK & ACCORDION -->
+        <div class="h-right">
+
+            <p class="h-subtitle">Unggulan</p>
+            <h1 class="h-title"><i>{{ product.nama.split(' ')[0] }}</i> {{ product.nama.split(' ')[1:] | join(' ') }}
+            </h1>
+            <p class="h-price">{{ product.harga }}</p>
+
+            <!-- Deskripsi kecil di atas tombol -->
+            <div class="h-desc">
+                {{ product.deskripsi }}
+            </div>
+
+            <!-- Tombol Action ala Herbana (Garis Nyambung) -->
+            <!-- Tombol Action ala Herbana (Garis Nyambung) -->
+            <div class="h-action-box">
+                <div class="h-qty-area">
+                    <span>JUMLAH</span>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <!-- Tambahin id "btn-minus" -->
+                        <button class="qty-btn" id="btn-minus">-</button>
+
+                        <!-- Tambahin id "qty-number" -->
+                        <span id="qty-number">1</span>
+
+                        <!-- Tambahin id "btn-plus" -->
+                        <button class="qty-btn" id="btn-plus">+</button>
+                    </div>
+                </div>
+
+                <!-- 
+                  Tombol WA nya dirombak dikit. 
+                  Gue titipin data nama dan harga di atribut data-nama & data-harga.
+                -->
+                <a href="#" target="_blank" class="h-buy-btn" id="btn-buy-wa" data-nama="{{ product.nama }}"
+                    data-harga="{{ product.harga }}">
+                    BELI
+                </a>
+            </div>
+
+            <!-- (Opsional) Tambahan teks total harga biar UX-nya makin mantap -->
+            <p id="display-total"
+                style="text-align: right; margin-top: 10px; font-weight: bold; color: var(--primary); letter-spacing: 1px; font-size: 0.95rem;">
+                Total: {{ product.harga }}
+            </p>
+
+            <!-- Accordion Pindah Ke Sini -->
+            <div class="herbana-accordion">
+
+                <!-- Accordion: Detail -->
+                <div class="accordion-item" style="border-top: 1px solid var(--text-dark);">
+                    <button class="accordion-header active" onclick="toggleAccordion('details')">
+                        Detail Produk <span class="icon">▾</span>
+                    </button>
+                    <div id="details" class="accordion-content show">
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li>Bahan 100% Organik</li>
+                            <li>Tanpa Gula Tambahan</li>
+                            <li>Masa Simpan: 7 Hari (Kulkas)</li>
+                            <li>Botol Kaca Steril 250ml</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Accordion: Reviews -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion('reviews')">
+                        Ulasan ({{ review_count }}) <span class="icon">▾</span>
+                    </button>
+                    <div id="reviews" class="accordion-content">
+                        <div style="margin-top: 10px;">
+                            {% if review_count == 0 %}
+                            <p style="font-style: italic;">Belum ada ulasan. Jadilah yang pertama!</p>
+                            {% else %}
+                            {% for review in reviews %}
+                            <div
+                                style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <strong>{{ review.nama_pembeli }}</strong>
+                                    <span>{{ review.tanggal }}</span>
+                                </div>
+                                <div style="color: #f5b041; letter-spacing: 2px;">
+                                    {% for _ in range(review.rating|int) %}⭐{% endfor %}
+                                </div>
+                                <p>"{{ review.ulasan }}"</p>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion: Pengiriman -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion('shipping')">
+                        Pengiriman <span class="icon">▾</span>
+                    </button>
+                    <div id="shipping" class="accordion-content">
+                        <p style="margin-top: 10px;">Dikirim maksimal H+1 setelah pemesanan. Wajib menggunakan kurir
+                            Instant atau Same Day agar jamu tetap segar.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </section>
 
     <!-- === KODE HTML MODAL (DISEMBUNYIKAN DEFAULT) === -->
     <div id="imageModal" class="modal">
         <span class="close-modal">&times;</span>
         <div class="modal-content">
-            <!-- Bagian Gambar Gede -->
             <div class="modal-left">
                 <button class="nav-btn prev" id="modalPrev">&#10094;</button>
                 <img id="modalMainImg" src="" alt="Zoom Image">
                 <button class="nav-btn next" id="modalNext">&#10095;</button>
             </div>
-            <!-- Bagian Kanan Modal (Judul & Thumbnails) -->
             <div class="modal-right">
-                <h3 style="font-size: 1.2rem; line-height: 1.4; margin-bottom: 20px; color: var(--text-dark);">{{
-                    product.nama }}</h3>
-                <div id="modalThumbContainer">
-                    <!-- Thumbnail modal bakal di-generate sama JavaScript di sini -->
-                </div>
+                <h3
+                    style="font-size: 1.5rem; font-family: Georgia, serif; color: var(--text-dark); margin-bottom: 20px;">
+                    {{ product.nama }}</h3>
+                <div id="modalThumbContainer"></div>
             </div>
         </div>
     </div>
 
-    <!-- === SECTION DESCRIPTION ALA ADIDAS === -->
-    <div class="adidas-details">
-
-        <!-- Bagian Accordion -->
-        <div class="accordion-item">
-            <!-- Jumlah review bakal otomatis ngikutin CSV -->
-            <button class="accordion-header" onclick="toggleAccordion('reviews')">
-                Reviews ({{ review_count }}) <span class="icon">▾</span>
-            </button>
-            <div id="reviews" class="accordion-content">
-                <div class="reviews-container" style="padding-top: 15px;">
-
-                    {% if review_count == 0 %}
-                    <p style="color: var(--text-muted); font-style: italic;">Belum ada ulasan untuk produk ini. Jadilah
-                        yang pertama!</p>
-                    {% else %}
-                    <!-- Looping semua review dari CSV -->
-                    {% for review in reviews %}
-                    <div class="review-card"
-                        style="border-bottom: 1px solid rgba(0,0,0,0.05); padding: 15px 0; margin-bottom: 10px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <strong style="color: var(--text-dark);">{{ review.nama_pembeli }}</strong>
-                            <span style="font-size: 0.85rem; color: var(--text-muted);">{{ review.tanggal }}</span>
-                        </div>
-                        <div class="stars"
-                            style="color: #f5b041; letter-spacing: 2px; margin-bottom: 10px; font-size: 0.9rem;">
-                            <!-- Bikin bintang sesuai angka rating -->
-                            {% for _ in range(review.rating|int) %}⭐{% endfor %}
-                        </div>
-                        <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">"{{ review.ulasan }}"</p>
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <button class="accordion-header active" onclick="toggleAccordion('description')">
-                Description <span class="icon">▾</span>
-            </button>
-            <div id="description" class="accordion-content show">
-                <div class="desc-flex">
-                    <div class="desc-text">
-                        <h2>RACIKAN TRADISIONAL UNTUK MODERN.</h2>
-                        <p>{{ product.deskripsi }}</p>
-                    </div>
-                    <div class="desc-img">
-                        <img src="/{{ product.gambar }}" alt="Aesthetic Grizelline">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <button class="accordion-header" onclick="toggleAccordion('details')">
-                Details <span class="icon">▾</span>
-            </button>
-            <div id="details" class="accordion-content">
-                <ul class="detail-list">
-                    <li>Bahan 100% Organik</li>
-                    <li>Tanpa Gula Tambahan</li>
-                    <li>Masa Simpan: 7 Hari (Kulkas)</li>
-                    <li>Botol Kaca Steril 250ml</li>
-                </ul>
-            </div>
-        </div>
-
-    </div>
-
+    <!-- SCRIPT JAVASCRIPT -->
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
-
-    <!-- SCRIPT KHUSUS LOGIKA GAMBAR -->
     <script>
+        // Logika Gallery & Modal
         document.addEventListener("DOMContentLoaded", () => {
             const pageMainImg = document.getElementById("pageMainImg");
             const pageThumbs = document.querySelectorAll("#pageThumbnails img");
-
             const modal = document.getElementById("imageModal");
             const modalMainImg = document.getElementById("modalMainImg");
             const modalThumbContainer = document.getElementById("modalThumbContainer");
@@ -178,11 +181,9 @@
             let currentIndex = 0;
             let imagesArray = [];
 
-            // 1. Kumpulin semua src gambar dari thumbnail & setting klik
             pageThumbs.forEach((thumb, index) => {
                 imagesArray.push(thumb.src);
 
-                // Bikin thumbnail buat di dalam modal
                 const mThumb = document.createElement("img");
                 mThumb.src = thumb.src;
                 mThumb.className = "modal-thumb";
@@ -191,60 +192,37 @@
                 mThumb.onclick = () => updateAllImages(index);
                 modalThumbContainer.appendChild(mThumb);
 
-                // Setting klik thumbnail di halaman biasa
                 thumb.onclick = () => updateAllImages(index);
             });
 
-            // 2. Fungsi sakti buat ngubah gambar di halaman & di modal sekalian
             function updateAllImages(index) {
                 currentIndex = index;
-
-                // Update gambar utama
                 pageMainImg.src = imagesArray[currentIndex];
                 modalMainImg.src = imagesArray[currentIndex];
-
-                // Update highlight kotak aktif di thumbnail halaman
                 pageThumbs.forEach(t => t.classList.remove("active"));
                 pageThumbs[currentIndex].classList.add("active");
-
-                // Update highlight kotak aktif di thumbnail modal
                 const mThumbs = document.querySelectorAll(".modal-thumb");
                 mThumbs.forEach(t => t.classList.remove("active"));
                 mThumbs[currentIndex].classList.add("active");
             }
 
-            // 3. Buka Modal pas gambar utama diklik
             pageMainImg.onclick = () => {
                 modal.style.display = "block";
                 updateAllImages(currentIndex);
             };
 
-            // 4. Tutup Modal pas tombol X diklik atau klik di luar gambar
             closeModalBtn.onclick = () => { modal.style.display = "none"; };
-            window.onclick = (event) => {
-                if (event.target == modal) { modal.style.display = "none"; }
-            };
-
-            // 5. Navigasi Next & Prev di dalam Modal
-            document.getElementById("modalNext").onclick = () => {
-                let nextIndex = (currentIndex + 1) % imagesArray.length;
-                updateAllImages(nextIndex);
-            };
-            document.getElementById("modalPrev").onclick = () => {
-                let prevIndex = (currentIndex - 1 + imagesArray.length) % imagesArray.length;
-                updateAllImages(prevIndex);
-            };
+            window.onclick = (event) => { if (event.target == modal) { modal.style.display = "none"; } };
+            document.getElementById("modalNext").onclick = () => { let nextIndex = (currentIndex + 1) % imagesArray.length; updateAllImages(nextIndex); };
+            document.getElementById("modalPrev").onclick = () => { let prevIndex = (currentIndex - 1 + imagesArray.length) % imagesArray.length; updateAllImages(prevIndex); };
         });
 
-        // Tambahkan fungsi ini di dalam tag <script> lu yang sudah ada
+        // Logika Accordion
         function toggleAccordion(id) {
             const content = document.getElementById(id);
             const header = content.previousElementSibling;
 
-            // Opsional: Tutup accordion lain pas satu dibuka (Biar persis Adidas)
             const allContent = document.querySelectorAll('.accordion-content');
-            const allHeader = document.querySelectorAll('.accordion-header');
-
             allContent.forEach(c => {
                 if (c.id !== id) {
                     c.classList.remove('show');
@@ -252,13 +230,76 @@
                 }
             });
 
-            // Toggle class show untuk animasi
             content.classList.toggle('show');
             header.classList.toggle('active');
         }
+
+        // =======================================================
+        // LOGIKA JUMLAH & KALKULATOR WHATSAPP
+        // =======================================================
+        const btnMinus = document.getElementById("btn-minus");
+        const btnPlus = document.getElementById("btn-plus");
+        const qtyNumber = document.getElementById("qty-number");
+        const btnBuyWa = document.getElementById("btn-buy-wa");
+        const displayTotal = document.getElementById("display-total");
+
+        // 1. Ambil data mentah dari HTML
+        const namaProduk = btnBuyWa.getAttribute("data-nama");
+        const hargaString = btnBuyWa.getAttribute("data-harga");
+
+        // 2. Bersihin teks "Rp 65.000" jadi angka murni 65000
+        // (split(',') buat jaga-jaga kalau format lu pake koma di belakang e.g Rp 65.000,00)
+        const basePrice = parseInt(hargaString.split(',')[0].replace(/[^0-9]/g, ''), 10) || 0;
+
+        let currentQty = 1;
+
+        // Nomor WA Admin Grizelline (Format tanpa angka 0 atau +, langsung kode negara 62)
+        const waNumber = "6289516402565"; // Sesuaikan dengan nomor lu cuy
+
+        // Fungsi format angka balik ke format Rupiah (Rp X.XXX)
+        function formatRupiah(angka) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(angka);
+        }
+
+        // Fungsi Super buat update Jumlah, Total Harga, dan Link WA!
+        function updateWhatsAppLink() {
+            // Update angka di layar
+            qtyNumber.innerText = currentQty;
+
+            // Hitung total harga
+            const totalPrice = basePrice * currentQty;
+
+            // Update teks total harga di bawah tombol
+            displayTotal.innerText = `Total: ${formatRupiah(totalPrice)}`;
+
+            // Rakit pesan WA-nya (Bisa lu kustom bebas)
+            const waMessage = `Halo *Grizelline Roots*! 🌱\n\nSaya mau pesan:\nProduk: *${namaProduk}*\nJumlah: *${currentQty} botol*\nTotal: *${formatRupiah(totalPrice)}*\n\nMohon info untuk proses pembayarannya ya, terima kasih!`;
+
+            // Inject pesannya ke dalam atribut href tombol BELI
+            btnBuyWa.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+        }
+
+        // Event Listener pas tombol Plus diklik
+        btnPlus.onclick = () => {
+            currentQty++;
+            updateWhatsAppLink();
+        };
+
+        // Event Listener pas tombol Minus diklik
+        btnMinus.onclick = () => {
+            if (currentQty > 1) { // Gak boleh minus atau 0 cuy wkwk
+                currentQty--;
+                updateWhatsAppLink();
+            }
+        };
+
+        // Panggil fungsi sekali pas halaman pertama kali dibuka biar link-nya siap
+        updateWhatsAppLink();
     </script>
-
-
 </body>
 
 </html>
