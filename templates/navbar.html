@@ -13,10 +13,21 @@
         <li><a href="{{ url_for('home') }}">Beranda</a></li>
 
         <!-- MEGA MENU DROPDOWN -->
+        <!-- MEGA MENU DROPDOWN -->
         <li class="dropdown">
-            <a href="{{ url_for('home') }}#koleksi" style="font-weight: 600;">KOLEKSI ▾</a>
+            <!-- Tambahin ikon panah > di kanannya -->
+            <a href="#" id="koleksi-btn"
+                style="font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+                KOLEKSI <span style="font-size: 1.2rem;">&#8250;</span>
+            </a>
 
-            <div class="dropdown-content">
+            <div class="dropdown-content" id="koleksi-dropdown">
+
+                <!-- TOMBOL BACK KHUSUS MOBILE ALA ADIDAS -->
+                <div class="mobile-back-btn" id="back-koleksi-btn">
+                    <span style="font-size: 1.2rem; margin-right: 10px;">&#8249;</span> KEMBALI
+                </div>
+
                 <!-- Kolom 1: Highlight -->
                 <div class="mega-column">
                     <div class="mega-header">Rekomendasi</div>
@@ -61,27 +72,44 @@
 <script>
     // 1. Script buat Pop Up Coming Soon
     function comingSoon(event) {
-        event.preventDefault(); // Biar layarnya gak lompat ke atas pas diklik
-
+        event.preventDefault();
         var popup = document.getElementById("comingSoonPopup");
-        popup.classList.add("show"); // Munculin pop-up
-
-        // Tunggu 2.5 detik biar pengunjung sempet baca, lalu lempar ke Home
+        popup.classList.add("show");
         setTimeout(function () {
             popup.classList.remove("show");
             window.location.href = "{{ url_for('home') }}";
         }, 2500);
     }
 
-    // 2. Script buat Munculin Menu di HP
+    // 2. Script buat Munculin Menu di HP & Slide Menu Koleksi
     document.addEventListener("DOMContentLoaded", function () {
         const hamburger = document.getElementById("hamburger-btn");
         const mobileMenu = document.getElementById("mobile-menu");
 
+        const koleksiBtn = document.getElementById("koleksi-btn");
+        const koleksiDropdown = document.getElementById("koleksi-dropdown");
+        const backKoleksiBtn = document.getElementById("back-koleksi-btn");
+
+        // Klik Hamburger Utama
         hamburger.addEventListener("click", function () {
-            // Nambahin atau ngilangin class 'active' pas diklik
             hamburger.classList.toggle("active");
             mobileMenu.classList.toggle("active");
+
+            // Kalau menu utama ditutup, pastikan menu koleksi juga ketutup (reset)
+            if (!mobileMenu.classList.contains("active")) {
+                koleksiDropdown.classList.remove("slide-in");
+            }
+        });
+
+        // Klik KOLEKSI (Layar geser ke kiri masukin Sub-menu)
+        koleksiBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            koleksiDropdown.classList.add("slide-in");
+        });
+
+        // Klik KEMBALI (Layar geser ke kanan balik ke Menu Utama)
+        backKoleksiBtn.addEventListener("click", function () {
+            koleksiDropdown.classList.remove("slide-in");
         });
     });
 </script>

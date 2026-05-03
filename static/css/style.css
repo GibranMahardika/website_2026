@@ -690,40 +690,79 @@ footer {
     .nav-links {
         position: absolute;
         top: 100%;
-        right: -100%;
-        flex-direction: column;
-        background-color: var(--card-bg);
+        left: -100%;
+        /* Defaultnya sembunyi di kiri */
         width: 100%;
         height: 100vh;
-        padding-top: 2rem;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: -5px 10px 20px rgba(0, 0, 0, 0.05);
-        align-items: flex-start;
-        padding-left: 10%;
+        background-color: var(--card-bg);
+        flex-direction: column;
+        padding-top: 1rem;
+        padding-left: 0;
+        /* Reset padding bawaan */
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-x: hidden;
+        /* Penting! Biar menu anak gak bocor ke samping */
+        overflow-y: auto;
     }
 
     .nav-links.active {
-        right: 0;
+        left: 0;
     }
 
     .nav-links li {
-        margin: 15px 0;
         width: 100%;
+        margin: 0;
+    }
+
+    .nav-links li>a,
+    .nav-links li>button {
+        display: block;
+        padding: 20px 10%;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        width: 100%;
+        text-align: left;
+    }
+
+    .dropdown {
+        position: static;
     }
 
     .dropdown:hover .dropdown-content {
-        display: flex;
+        display: none;
+        /* Matiin hover laptop */
+    }
+
+    .dropdown-content::before {
+        display: none;
+    }
+
+    .dropdown-content {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        /* Sembunyi di luar kanan layar menu utama */
+        width: 100%;
+        min-height: 100vh;
+        background-color: var(--card-bg);
+        z-index: 10;
+        /* Biar posisinya di atas menu utama */
+        display: flex !important;
         flex-direction: column;
-        position: relative;
+        padding: 0;
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: none;
-        padding: 10px 0 10px 15px;
-        gap: 15px;
         border-top: none;
-        background: transparent;
+    }
+
+    .dropdown-content.slide-in {
+        left: 0;
+        /* Nutupin layar penuh dari kanan ke kiri */
     }
 
     .mega-column {
-        margin-bottom: 10px;
+        padding: 10px 10%;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        margin-bottom: 0;
     }
 
     /* Herbana Category Grid Fix */
@@ -745,7 +784,40 @@ footer {
         border-right: none;
     }
 
+    .mobile-back-btn {
+        display: none;
+    }
+
     /* Ujung kanan gak perlu garis */
+
+    .dropdown-content.show-mobile {
+        display: flex !important;
+        flex-direction: column;
+        position: static;
+        /* Biar dorong menu di bawahnya (Accordion) */
+        box-shadow: none;
+        padding: 10px 0 10px 15px;
+        gap: 15px;
+        border-top: none;
+        background: transparent;
+    }
+
+    .mobile-back-btn {
+        display: flex;
+        padding: 20px 10%;
+        font-weight: 700;
+        letter-spacing: 2px;
+        background-color: rgba(85, 107, 47, 0.05);
+        /* Warna ijo tipis */
+        color: var(--primary);
+        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        cursor: pointer;
+        align-items: center;
+    }
+
+    .dark-mode .mobile-back-btn {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
 }
 
 /* HP Layar Kecil */
