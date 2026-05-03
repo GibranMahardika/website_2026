@@ -5,383 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ product.nama }} | Grizelline Roots</title>
+    <!-- CSS Global -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-    <style>
-        /* CSS LAYOUT E-COMMERCE (Yang udah kita bikin sebelumnya) */
-        .ecom-container {
-            display: flex;
-            gap: 2.5rem;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-            margin-top: 1rem;
-        }
-
-        .ecom-gallery {
-            flex: 0 0 40%;
-        }
-
-        .main-image {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            cursor: zoom-in;
-        }
-
-        .thumbnail-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .thumbnail-row img {
-            width: 80px;
-            height: 80px;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: 0.3s;
-            opacity: 0.7;
-        }
-
-        .thumbnail-row img.active,
-        .thumbnail-row img:hover {
-            border-color: var(--primary);
-            opacity: 1;
-        }
-
-        .ecom-info {
-            flex: 1;
-        }
-
-        .badge-star {
-            background-color: var(--secondary);
-            color: var(--bg-light);
-            padding: 4px 10px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            border-radius: 5px;
-            margin-right: 8px;
-            vertical-align: middle;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .ecom-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            line-height: 1.3;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-
-        .ecom-stats {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            color: var(--text-muted);
-        }
-
-        .ecom-stats span {
-            border-right: 1px solid rgba(0, 0, 0, 0.1);
-            padding-right: 15px;
-        }
-
-        .ecom-stats span:last-child {
-            border-right: none;
-        }
-
-        .star-rating {
-            color: #f5b041;
-            letter-spacing: 2px;
-        }
-
-        .price-box {
-            background-color: rgba(85, 107, 47, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            border: 1px solid rgba(85, 107, 47, 0.1);
-        }
-
-        .dark-mode .price-box {
-            background-color: rgba(255, 255, 255, 0.03);
-            border-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .price-text {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin: 0;
-        }
-
-        .option-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .option-label {
-            width: 120px;
-            color: var(--text-muted);
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .variant-btn {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            color: var(--text-dark);
-            padding: 8px 20px;
-            margin-right: 10px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .dark-mode .variant-btn {
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .variant-btn:hover,
-        .variant-btn.active {
-            border-color: var(--primary);
-            color: var(--primary);
-            background-color: rgba(85, 107, 47, 0.05);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 35px;
-        }
-
-        .btn-cart {
-            background-color: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 15px 30px;
-            font-weight: bold;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: 0.3s;
-        }
-
-        .btn-cart:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-buy {
-            background-color: var(--primary);
-            border: 2px solid var(--primary);
-            color: white;
-            padding: 15px 40px;
-            font-weight: bold;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.3s;
-        }
-
-        .btn-buy:hover {
-            background-color: #3e4f22;
-            border-color: #3e4f22;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        .back-link:hover {
-            color: var(--primary);
-        }
-
-        /* === CSS BARU KHUSUS MODAL POPUP === */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            /* Efek ngeblur estetik */
-        }
-
-        .modal-content {
-            background-color: var(--card-bg);
-            margin: 3% auto;
-            /* Jarak dari atas */
-            width: 85%;
-            max-width: 1000px;
-            height: 80vh;
-            display: flex;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            animation: zoomIn 0.3s;
-        }
-
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.9);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-left {
-            flex: 2;
-            position: relative;
-            background: #111;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-left img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .modal-right {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-            border-left: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 30px;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1001;
-            transition: 0.2s;
-        }
-
-        .close-modal:hover {
-            color: #ee4d2d;
-        }
-
-        /* Tombol panah Kiri Kanan */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .nav-btn:hover {
-            background: var(--primary);
-        }
-
-        .nav-btn.prev {
-            left: 20px;
-        }
-
-        .nav-btn.next {
-            right: 20px;
-        }
-
-        .modal-thumb {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 0 10px 10px 0;
-            border: 2px solid transparent;
-            display: inline-block;
-        }
-
-        .modal-thumb.active {
-            border-color: var(--primary);
-        }
-
-        @media (max-width: 768px) {
-            .ecom-container {
-                flex-direction: column;
-                padding: 1.5rem;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .btn-cart,
-            .btn-buy {
-                width: 100%;
-                text-align: center;
-            }
-
-            .modal-content {
-                flex-direction: column;
-                height: 90vh;
-                margin: 5% auto;
-                width: 95%;
-            }
-
-            .modal-left {
-                flex: unset;
-                height: 60vh;
-            }
-
-            .modal-right {
-                padding: 15px;
-            }
-        }
-    </style>
+    <!-- CSS Khusus Detail (Hasil pindahan tadi) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/product-detail.css') }}">
 </head>
 
 <body class="{{ 'dark-mode' if request.cookies.get('tema') == 'dark' else '' }}">
     {% include 'navbar.html' %}
 
     <section class="container">
-        <a href="/" class="back-link">&larr; Kembali ke Katalog</a>
-
         <div class="ecom-container">
             <!-- KIRI: FOTO PRODUK KOTAK -->
             <div class="ecom-gallery">
@@ -400,9 +33,9 @@
                     <span class="badge-star">Unggulan</span> {{ product.nama }}
                 </h1>
                 <div class="ecom-stats">
-                    <span class="star-rating">★★★★★</span>
-                    <span><strong>4.9</strong>/5 Penilaian</span>
-                    <span><strong>200+</strong> Terjual</span>
+                    <span class="star-rating">⭐ {{ avg_rating }}</span>
+                    <span><strong>{{ avg_rating }}</strong>/5 ({{ review_count }} Penilaian)</span>
+                    <span><strong>200+</strong> Terjual</span> <!-- Terjual masih statis gpp -->
                 </div>
                 <div class="price-box">
                     <p class="price-text">{{ product.harga }}</p>
@@ -456,6 +89,77 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- === SECTION DESCRIPTION ALA ADIDAS === -->
+    <div class="adidas-details">
+
+        <!-- Bagian Accordion -->
+        <div class="accordion-item">
+            <!-- Jumlah review bakal otomatis ngikutin CSV -->
+            <button class="accordion-header" onclick="toggleAccordion('reviews')">
+                Reviews ({{ review_count }}) <span class="icon">▾</span>
+            </button>
+            <div id="reviews" class="accordion-content">
+                <div class="reviews-container" style="padding-top: 15px;">
+
+                    {% if review_count == 0 %}
+                    <p style="color: var(--text-muted); font-style: italic;">Belum ada ulasan untuk produk ini. Jadilah
+                        yang pertama!</p>
+                    {% else %}
+                    <!-- Looping semua review dari CSV -->
+                    {% for review in reviews %}
+                    <div class="review-card"
+                        style="border-bottom: 1px solid rgba(0,0,0,0.05); padding: 15px 0; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <strong style="color: var(--text-dark);">{{ review.nama_pembeli }}</strong>
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">{{ review.tanggal }}</span>
+                        </div>
+                        <div class="stars"
+                            style="color: #f5b041; letter-spacing: 2px; margin-bottom: 10px; font-size: 0.9rem;">
+                            <!-- Bikin bintang sesuai angka rating -->
+                            {% for _ in range(review.rating|int) %}⭐{% endfor %}
+                        </div>
+                        <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">"{{ review.ulasan }}"</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header active" onclick="toggleAccordion('description')">
+                Description <span class="icon">▾</span>
+            </button>
+            <div id="description" class="accordion-content show">
+                <div class="desc-flex">
+                    <div class="desc-text">
+                        <h2>RACIKAN TRADISIONAL UNTUK MODERN.</h2>
+                        <p>{{ product.deskripsi }}</p>
+                    </div>
+                    <div class="desc-img">
+                        <img src="/{{ product.gambar }}" alt="Aesthetic Grizelline">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion('details')">
+                Details <span class="icon">▾</span>
+            </button>
+            <div id="details" class="accordion-content">
+                <ul class="detail-list">
+                    <li>Bahan 100% Organik</li>
+                    <li>Tanpa Gula Tambahan</li>
+                    <li>Masa Simpan: 7 Hari (Kulkas)</li>
+                    <li>Botol Kaca Steril 250ml</li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
@@ -531,7 +235,30 @@
                 updateAllImages(prevIndex);
             };
         });
+
+        // Tambahkan fungsi ini di dalam tag <script> lu yang sudah ada
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const header = content.previousElementSibling;
+
+            // Opsional: Tutup accordion lain pas satu dibuka (Biar persis Adidas)
+            const allContent = document.querySelectorAll('.accordion-content');
+            const allHeader = document.querySelectorAll('.accordion-header');
+
+            allContent.forEach(c => {
+                if (c.id !== id) {
+                    c.classList.remove('show');
+                    c.previousElementSibling.classList.remove('active');
+                }
+            });
+
+            // Toggle class show untuk animasi
+            content.classList.toggle('show');
+            header.classList.toggle('active');
+        }
     </script>
+
+
 </body>
 
 </html>

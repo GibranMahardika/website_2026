@@ -10,45 +10,7 @@
 
 <body class="{{ 'dark-mode' if request.cookies.get('tema') == 'dark' else '' }}">
 
-    <nav>
-        <a href="/" class="logo">Grizelline Roots.</a>
-        <ul class="nav-links">
-            <li><a href="/">Beranda</a></li>
-            <!-- MEGA MENU DROPDOWN -->
-            <li class="dropdown">
-                <a href="#koleksi" style="font-weight: 600;">KOLEKSI ▾</a>
-
-                <div class="dropdown-content">
-
-                    <!-- Kolom 1: Highlight -->
-                    <div class="mega-column">
-                        <div class="mega-header">Rekomendasi</div>
-                        <a href="#koleksi">Produk Terlaris 🔥</a>
-                        <a href="#">Paket Bundling</a>
-                        <a href="#">Promo Bulan Ini</a>
-                    </div>
-
-                    <!-- Kolom 2: Dinamis dari CSV Lu -->
-                    <div class="mega-column">
-                        <div class="mega-header">Semua Kategori</div>
-                        {% for kategori in daftar_kategori %}
-                        <a href="{{ url_for('kategori_produk', nama_kategori=kategori) }}">{{ kategori }}</a>
-                        {% endfor %}
-                    </div>
-
-                    <!-- Kolom 3: Layanan/Panduan -->
-                    <div class="mega-column">
-                        <div class="mega-header">Informasi</div>
-                        <a href="#filosofi">Tentang Grizelline</a>
-                        <a href="#">Panduan Konsumsi</a>
-                        <a href="https://wa.me/628123456789" target="_blank">Konsultasi Gratis</a>
-                    </div>
-
-                </div>
-            </li>
-            <li><button id="theme-toggle" class="btn-theme">🌙 Dark Mode</button></li>
-        </ul>
-    </nav>
+    {% include 'navbar.html' %}
 
     <section class="container" style="padding-top: 100px;">
         <div style="text-align: center; margin-bottom: 3rem;">
@@ -73,8 +35,10 @@
                     </a>
                     <p>{{ product.deskripsi[:50] }}...</p>
                     <span class="price">{{ product.harga }}</span>
-                    <a href="{{ product.link_beli }}" target="_blank" class="btn" style="display: inline-block;">Pesan
-                        via WA</a>
+
+                    <!-- TOMBOLNYA UDAH GUE ARAHIN KE DETAIL PRODUK -->
+                    <a href="{{ url_for('detail_produk', nama_produk=product.nama) }}" class="btn"
+                        style="display: inline-block; background-color: var(--primary); color: white;">Lihat Detail</a>
                 </div>
             </div>
             {% endfor %}

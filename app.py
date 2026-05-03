@@ -57,21 +57,52 @@ def home():
 # Tambahin ini di app.py lu ya!
 @app.route('/produk/<nama_produk>')
 def detail_produk(nama_produk):
-    # Mengambil data dari CSV
-    products = []
+    # ==========================================
+    # 1. LOGIKA LAMA LU (Nyari info jamu)
+    # ==========================================
+    product = None
     with open('produk.csv', mode='r', encoding='utf-8') as file:
-        import csv
         reader = csv.DictReader(file)
         for row in reader:
-            products.append(row)
-            
-    # Nyari barang yang namanya pas diklik
-    item = next((p for p in products if p['nama'] == nama_produk), None)
+            if row['nama'] == nama_produk:
+                product = row
+                break
+                
+    # Kalau produk gak ketemu, lempar ke home
+    if not product:
+        return redirect(url_for('home'))
+
+    # ==========================================
+    # 2. LOGIKA BARU (Nyari review jamunya)
+    # ==========================================
+    reviews_list = []
+    total_bintang = 0
     
-    if item is None:
-        return "Barang tidak ditemukan", 404
+    try:
+        with open('reviews.csv', mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row['nama_produk'] == nama_produk:
+                    reviews_list.append(row)
+                    total_bintang += int(row['rating'])
+    except FileNotFoundError:
+        pass 
         
-    return render_template('product_detail.html', product=item)
+    review_count = len(reviews_list)
+    
+    if review_count > 0:
+        avg_rating = round(total_bintang / review_count, 1)
+    else:
+        avg_rating = 0.0
+
+    # ==========================================
+    # 3. LEMPAR SEMUA DATANYA KE HTML
+    # ==========================================
+    return render_template('product_detail.html', 
+                           product=product, 
+                           reviews=reviews_list, 
+                           review_count=review_count, 
+                           avg_rating=avg_rating)
 
 # ROUTE BARU: Halaman Kategori Spesifik
 @app.route('/kategori/<nama_kategori>')

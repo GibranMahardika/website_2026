@@ -1,0 +1,454 @@
+/* ==========================================================================
+   1. LAYOUT UTAMA (PRODUK ATAS)
+   ========================================================================== */
+.ecom-container {
+    display: flex;
+    gap: 3rem;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    margin-top: 1rem;
+}
+
+.ecom-gallery {
+    flex: 0 0 45%;
+}
+
+.ecom-info {
+    flex: 1;
+}
+
+/* ==========================================================================
+   2. GAMBAR & THUMBNAILS
+   ========================================================================== */
+.main-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.1);
+    cursor: zoom-in;
+}
+
+.thumbnail-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.thumbnail-row img,
+.modal-thumb {
+    width: 80px;
+    height: 80px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.thumbnail-row img {
+    opacity: 0.6;
+}
+
+.thumbnail-row img.active,
+.thumbnail-row img:hover,
+.modal-thumb.active {
+    border-color: var(--primary);
+    opacity: 1;
+}
+
+/* ==========================================================================
+   3. TYPOGRAPHY & STATISTIK
+   ========================================================================== */
+.badge-star {
+    background-color: var(--secondary);
+    color: var(--bg-light);
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-right: 8px;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+
+.ecom-title {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+
+.ecom-stats {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    color: var(--text-muted);
+}
+
+.ecom-stats span {
+    border-right: 1px solid rgba(128, 128, 128, 0.3);
+    padding-right: 15px;
+}
+
+.ecom-stats span:last-child {
+    border-right: none;
+}
+
+.star-rating {
+    color: #f5b041;
+    letter-spacing: 2px;
+}
+
+/* ==========================================================================
+   4. HARGA, VARIASI & TOMBOL
+   ========================================================================== */
+.price-box {
+    background-color: rgba(85, 107, 47, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(85, 107, 47, 0.1);
+}
+
+.price-text {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin: 0;
+}
+
+.option-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.option-label {
+    width: 120px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.variant-btn {
+    background: transparent;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    color: var(--text-dark);
+    padding: 8px 20px;
+    margin-right: 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 600;
+}
+
+.variant-btn.active,
+.variant-btn:hover {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    background-color: rgba(85, 107, 47, 0.05);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.btn-cart {
+    background-color: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 15px 30px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+.btn-cart:hover {
+    background-color: var(--primary);
+    color: var(--bg-light);
+}
+
+.btn-buy {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    color: var(--bg-light);
+    padding: 15px 40px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-buy:hover {
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   5. ACCORDION (ADIDAS STYLE) - POSISI DI BAWAH
+   ========================================================================== */
+.adidas-details {
+    max-width: 1000px;
+    margin: 60px auto;
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+    padding: 0 15px;
+}
+
+.accordion-item {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 25px 0;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.accordion-header.active,
+.accordion-header:hover {
+    color: var(--primary);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-content.show {
+    max-height: 1000px;
+    padding-bottom: 40px;
+}
+
+.desc-flex {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.desc-text {
+    flex: 1;
+}
+
+.desc-text h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+    line-height: 1.2;
+}
+
+.desc-img {
+    flex: 1;
+}
+
+.desc-img img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 15px 15px 0 var(--primary);
+    /* Efek streetwear */
+}
+
+.detail-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 20px 0;
+    list-style: none;
+}
+
+.detail-list li {
+    color: var(--text-muted);
+}
+
+.detail-list li::before {
+    content: "✔";
+    color: var(--primary);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* ==========================================================================
+   6. MODAL GAMBAR
+   ========================================================================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 3% auto;
+    width: 85%;
+    max-width: 1000px;
+    height: 80vh;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: zoomIn 0.3s;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-left {
+    flex: 2;
+    position: relative;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-left img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.modal-right {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    border-left: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: 0.2s;
+}
+
+.close-modal:hover {
+    color: #ee4d2d;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-btn:hover {
+    background: var(--primary);
+}
+
+.nav-btn.prev {
+    left: 20px;
+}
+
+.nav-btn.next {
+    right: 20px;
+}
+
+/* ==========================================================================
+   7. DARK MODE TWEAKS (Cuma dikit karena udah dibantu CSS Variables)
+   ========================================================================== */
+.dark-mode .price-box {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   8. RESPONSIVE MOBILE
+   ========================================================================== */
+@media (max-width: 768px) {
+    .ecom-container {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn-cart,
+    .btn-buy {
+        width: 100%;
+        text-align: center;
+    }
+
+    .desc-flex {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .desc-text h2 {
+        font-size: 1.6rem;
+    }
+
+    .desc-img img {
+        box-shadow: 10px 10px 0 var(--primary);
+    }
+
+    .modal-content {
+        flex-direction: column;
+        height: 90vh;
+        margin: 5% auto;
+        width: 95%;
+    }
+
+    .modal-left {
+        height: 50vh;
+        flex: unset;
+    }
+}
