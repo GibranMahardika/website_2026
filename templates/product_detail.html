@@ -95,10 +95,22 @@
                     </button>
                     <div id="details" class="accordion-content show">
                         <ul style="padding-left: 20px; margin-top: 10px;">
-                            <li>Bahan 100% Organik</li>
-                            <li>Tanpa Gula Tambahan</li>
-                            <li>Masa Simpan: 7 Hari (Kulkas)</li>
-                            <li>Botol Kaca Steril 250ml</li>
+
+                            <!-- Cek apakah kolom detail_produk ada isinya -->
+                            {% if product.detail_produk %}
+                            <!-- Pecah kalimat berdasarkan simbol | -->
+                            {% for poin in product.detail_produk.split('|') %}
+                            <!-- Pastikan poinnya gak kosong, lalu tampilin -->
+                            {% if poin.strip() %}
+                            <li>{{ poin.strip() }}</li>
+                            {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <!-- Teks cadangan kalau di CSV kolomnya lu biarin kosong -->
+                            <li style="color: var(--text-muted); list-style: none; margin-left: -20px;">Detail
+                                spesifikasi belum tersedia.</li>
+                            {% endif %}
+
                         </ul>
                     </div>
                 </div>

@@ -665,6 +665,14 @@ footer {
     line-height: 1.6;
 }
 
+.mobile-back-btn {
+    display: none !important;
+}
+
+.dropdown {
+    position: static;
+}
+
 /* ==========================================================================
    7. RESPONSIVE MEDIA QUERIES (Satu pintu biar enteng diload)
    ========================================================================== */
@@ -675,6 +683,7 @@ footer {
     }
 }
 
+/* Tablet & HP Standar */
 /* Tablet & HP Standar */
 @media (max-width: 768px) {
 
@@ -765,6 +774,24 @@ footer {
         margin-bottom: 0;
     }
 
+    /* Style Tombol KEMBALI di HP */
+    .mobile-back-btn {
+        display: flex !important;
+        /* Paksa muncul pas di layar HP */
+        padding: 20px 10%;
+        font-weight: 700;
+        letter-spacing: 2px;
+        background-color: rgba(85, 107, 47, 0.05);
+        color: var(--primary);
+        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        cursor: pointer;
+        align-items: center;
+    }
+
+    .dark-mode .mobile-back-btn {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
     /* Herbana Category Grid Fix */
     .herbana-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -782,41 +809,6 @@ footer {
 
     .h-filter-item:nth-child(2) {
         border-right: none;
-    }
-
-    .mobile-back-btn {
-        display: none;
-    }
-
-    /* Ujung kanan gak perlu garis */
-
-    .dropdown-content.show-mobile {
-        display: flex !important;
-        flex-direction: column;
-        position: static;
-        /* Biar dorong menu di bawahnya (Accordion) */
-        box-shadow: none;
-        padding: 10px 0 10px 15px;
-        gap: 15px;
-        border-top: none;
-        background: transparent;
-    }
-
-    .mobile-back-btn {
-        display: flex;
-        padding: 20px 10%;
-        font-weight: 700;
-        letter-spacing: 2px;
-        background-color: rgba(85, 107, 47, 0.05);
-        /* Warna ijo tipis */
-        color: var(--primary);
-        border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-        cursor: pointer;
-        align-items: center;
-    }
-
-    .dark-mode .mobile-back-btn {
-        background-color: rgba(255, 255, 255, 0.05);
     }
 }
 
