@@ -55,7 +55,7 @@ def home():
     # ==========================================
     testimonials = []
     try:
-        with open('reviews.csv', mode='r', encoding='utf-8') as file:
+        with open('review.csv', mode='r', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 testimonials.append(row)

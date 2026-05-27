@@ -6,11 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grizelline Roots | Jamu Modern & Minuman Fungsional</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
 </head>
 
 <body>
 
     {% include 'navbar.html' %}
+
+    <div id="welcome-popup" class="tutorial-popup">
+        <div class="popup-content">
+            <h3>Selamat Datang di Grizelline Roots! 🌿</h3>
+            <p>Bantu kami menyimpan preferensimu (Cache) agar website lebih cepat, sekalian kita kasih tur singkat
+                fitur-fitur keren di sini!</p>
+            <button id="btn-mulai-tur" class="btn-primary">Izinkan & Mulai Tur</button>
+            <button id="btn-skip" class="btn-secondary">Nanti Saja</button>
+        </div>
+    </div>
 
     <section id="home" class="hero">
         <h1>Tradisi Mengakar,<br>Gaya Hidup Modern.</h1>
@@ -174,6 +185,65 @@
         }
     </script>
 
+
 </body>
+<script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. Cek apakah di browser (cache) user sudah ada tanda 'tutorial_selesai'
+        const isTutorialDone = localStorage.getItem('tutorial_selesai');
+        const popup = document.getElementById('welcome-popup');
+        const btnMulai = document.getElementById('btn-mulai-tur');
+        const btnSkip = document.getElementById('btn-skip');
+
+        // 2. Kalau belum pernah ikut tutorial, munculkan popup
+        if (!isTutorialDone) {
+            popup.style.display = 'flex';
+        }
+
+        // 3. Settingan gamifikasi tutorialnya (Driver.js)
+        const driverObj = window.driver.js.driver({
+            showProgress: true,
+            doneBtnText: 'Selesai',
+            nextBtnText: 'Lanjut ➔',
+            prevBtnText: '⬅ Kembali',
+            steps: [
+                // Langkah 1: Langsung nyorot ke Logo
+                {
+                    element: '.logo',
+                    popover: { title: 'Selamat Datang!', description: 'Ini adalah brand minuman cold-pressed estetik lu.', side: "bottom", align: 'start' }
+                },
+                // Langkah 2: Nyorot ke Navbar (Menu Navigasi)
+                // Ganti targetnya jadi .nav-links biar yang kesorot itu jejeran menunya
+                {
+                    element: '.nav-links',
+                    popover: { title: 'Navigasi Menu', description: 'Lu bisa lompat ke halaman Koleksi atau Filosofi lewat sini.', side: "bottom", align: 'start' }
+                },
+                // Langkah 3: Nyorot ke Dark Mode (Pake ID yang bener)
+                {
+                    element: '#theme-toggle', // <-- INI YANG PALING PENTING DIGANTI
+                    popover: { title: 'Mata Lelah?', description: 'Klik tombol ini buat ngubah website jadi mode gelap. Estetik abis!', side: "left", align: 'center' }
+                }
+            ]
+        });
+
+        // 4. Aksi kalau tombol "Izinkan & Mulai Tur" diklik
+        btnMulai.addEventListener('click', function () {
+            // Simpan data di LocalStorage (Cache Browser)
+            localStorage.setItem('tutorial_selesai', 'true');
+            // Tutup popup
+            popup.style.display = 'none';
+            // Jalankan animasi tur
+            driverObj.drive();
+        });
+
+        // 5. Aksi kalau tombol "Nanti Saja" diklik
+        btnSkip.addEventListener('click', function () {
+            // Tetap simpan cache biar nggak ditanya terus tiap refresh
+            localStorage.setItem('tutorial_selesai', 'true');
+            popup.style.display = 'none';
+        });
+    });
+</script>
 
 </html>
